@@ -8,7 +8,7 @@ import axios from 'axios';
 
 const TaskPage = () => {
   const [searchText, setSearchText] = useState('');
-  const [task, setTask] = useState([]);
+  const [tasks, setTask] = useState([]);
   const apiUrl = 'http://192.168.1.5:8080/api/v1/tasks';
 
   useEffect(() => {
