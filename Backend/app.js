@@ -17,6 +17,8 @@ app.get("/hello", (req, res) => {
   res.send("StudyMate");
 });
 
+
+
 const port = 8080;
 
 const start = async () => {
@@ -24,7 +26,7 @@ const start = async () => {
     await connectDB(process.env.MONGO_URL);
     app.listen(
       port,
-      "192.168.1.5",
+      "172.20.10.2",
       console.log(`Server is listening on port ${port}`)
     );
   } catch (error) {

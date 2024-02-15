@@ -82,7 +82,7 @@ const Form = () => {
         description: description,
       };
 
-      const apiUrl = "http:/192.168.1.5:8080/api/v1/tasks";
+      const apiUrl = "http:/172.20.10.2:8080/api/v1/tasks";
 
       try {
         const response = await axios.post(apiUrl, formData);
