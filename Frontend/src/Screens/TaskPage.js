@@ -11,7 +11,6 @@ const TaskPage = () => {
 
   const apiUrl = "http://172.20.10.2:8080/api/v1/tasks";
 
-
   useEffect(() => {
     function fetchData() {
       axios
