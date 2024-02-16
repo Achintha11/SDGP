@@ -11,4 +11,5 @@ export const COLORS = {
   tenth: '#66ff33',
   eleventh: 'red',
   twelveth: '#D6C9FF',
+  piccontainer : '#ddccff'
 };
