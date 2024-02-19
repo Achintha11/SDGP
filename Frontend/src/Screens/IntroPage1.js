@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView, StyleSheet, Text, View,TouchableOpacity , Image } from 'react-native';
 import React, { useState } from 'react';
-import { COLORS } from '../../assets/Constants.js/Constant';
+import { COLORS } from '../../assets/constants/constant';
 const startImg = require('../../assets/start1.png')
 
 
