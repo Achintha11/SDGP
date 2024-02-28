@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {View,Text,TextInput,StyleSheet,TouchableOpacity,FlatList,StatusBar,SafeAreaView} from "react-native";
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, FlatList, StatusBar, SafeAreaView } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import TaskCard from "../Components/TaskCard";
 import axios from "axios";
@@ -9,7 +9,7 @@ const TaskPage = () => {
 
   const [tasks, setTask] = useState([]);
 
-  const apiUrl = "http://172.20.10.2:8080/api/v1/tasks";
+  const apiUrl = "http://192.168.1.10:8080/api/v1/tasks";
 
   useEffect(() => {
     function fetchData() {
@@ -54,7 +54,10 @@ const TaskPage = () => {
       <View style={[styles.halfContainer, styles.whiteBackground]}>
         <View style={styles.innerGreyBackground}>
           <FlatList
-            style={{ padding: '5%' }}
+          style ={{width : '95%', height : '110%'}}
+
+            contentContainerStyle = {{alignItems : 'center' }}
+            showsVerticalScrollIndicator = {false}
             data={tasks}
             renderItem={({ item }) => <TaskCard task={item} />}
             keyExtractor={(item) => item._id}
@@ -95,7 +98,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     marginTop: -40,
     alignItems: "center",
-    paddingBottom: "22%",
+    paddingBottom: "10%",
     paddingTop: "3%",
   },
 
@@ -103,7 +106,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "700",
     color: "white",
-    marginTop : '5%'
+    marginTop: '5%'
   },
   searchBarContainer: {
     flex: 1,
@@ -126,7 +129,7 @@ const styles = StyleSheet.create({
     right: '5%',
   },
   searchIcon: {},
-  
+
 });
 
 export default TaskPage;
