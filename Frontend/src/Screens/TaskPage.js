@@ -2,14 +2,22 @@ import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, FlatList, StatusBar, SafeAreaView } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import TaskCard from "../Components/TaskCard";
+import TaskModel from "../Components/TaskModal";
 import axios from "axios";
 import { COLORS } from "../../assets/constants/constant";
 const TaskPage = () => {
   const [searchText, setSearchText] = useState("");
 
   const [tasks, setTask] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null);
 
-  const apiUrl = "http://192.168.1.10:8080/api/v1/tasks";
+  const apiUrl = "http://10.31.0.104:8080/api/v1/tasks";
+
+  const openModal = (task) => {
+    setSelectedTask(task);
+    setModalVisible(true);
+  };
 
   useEffect(() => {
     function fetchData() {
@@ -54,13 +62,19 @@ const TaskPage = () => {
       <View style={[styles.halfContainer, styles.whiteBackground]}>
         <View style={styles.innerGreyBackground}>
           <FlatList
-          style ={{width : '95%', height : '110%'}}
+            style={{ width: '95%', height: '110%' }}
 
-            contentContainerStyle = {{alignItems : 'center' }}
-            showsVerticalScrollIndicator = {false}
+            contentContainerStyle={{ alignItems: 'center' }}
+            showsVerticalScrollIndicator={false}
             data={tasks}
-            renderItem={({ item }) => <TaskCard task={item} />}
+            renderItem={({ item }) => <TaskCard task={item} onTaskCardPress={openModal} />}
             keyExtractor={(item) => item._id}
+          />
+
+          <TaskModel
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+            task={selectedTask}
           />
         </View>
       </View>

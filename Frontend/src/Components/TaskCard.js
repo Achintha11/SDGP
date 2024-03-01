@@ -8,7 +8,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import * as Progress from "react-native-progress";
 import moment from "moment";
 
-const TaskCard = ({ task }) => {
+const TaskCard = ({ task , onTaskCardPress }) => {
   const [starColor, setStarColor] = useState(COLORS.sixth);
   const progress = 0.9;
   const handleCardPress = () => {
@@ -29,7 +29,7 @@ const TaskCard = ({ task }) => {
       startColor={COLORS.eighth}
       containerStyle={{marginVertical : '5%' }}
     >
-      <TouchableOpacity onPress={handleCardPress} style={styles.cardContainer}>
+      <TouchableOpacity onPress={()=>onTaskCardPress(task)} style={styles.cardContainer}>
         <View>
           <Text style={styles.cardText}>{task.Title}</Text>
           <Text style={styles.cardSubText}>{task.taskType}</Text>
