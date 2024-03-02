@@ -9,19 +9,19 @@ import {
   StatusBar,
   ImageBackground,
   Button,
-  image
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { COLORS } from "../../assets/constants/constant";
 import { useEffect } from "react";
+import girlImage from '../../assets/Girl.png'
+import boyImage from '../../assets/Boy.png'
 
-const App = () => {
+const ProPicUpload = () => {
+  const girlImg = Image.resolveAssetSource(girlImage).uri  
+  const boyImg = Image.resolveAssetSource(boyImage).uri
 
-  const girlImg = require('../../assets/Girl.png')
-  const boyImg = require('../../assets/Boy.png')
-  const [image, setSelectedImage ] = useState(null);
+  const [image, setImage] = useState(null);
   const [isAvatarSelected, setIsAvatarSelected] = useState(false);
-
 
   useEffect(() => {
     (async () => {
@@ -34,9 +34,11 @@ const App = () => {
   }, []);
 
   const selectAvatar = (avatarUri) => {
-    setSelectedImage(avatarUri);
+    console.log(avatarUri);
+    setImage(avatarUri);
     setIsAvatarSelected(true); // Set avatar selection
   };
+
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -47,8 +49,11 @@ const App = () => {
     });
 
     if (!result.canceled) {
-      setSelectedImage(result.assets[0].uri);
+      const uploadUri = result.assets[0].uri;
+      console.log(uploadUri);
+      setImage(uploadUri)
       setIsAvatarSelected(false); // Reset avatar selection
+
 
     }
   };
@@ -60,45 +65,46 @@ const App = () => {
 
       <View style={styles.container}>
         <View style={styles.outerCircle}>
-        <View style={styles.innerCircle}>
-          <View
-            style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-            {image && !isAvatarSelected && (
+          <View style={styles.innerCircle}>
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {image && !isAvatarSelected && (
                 <Image
-                  source={{ uri: image }}
+                  source={{uri : image}}
                   style={{ width: 165, height: 165, borderRadius: 82.5 }}
                 />
               )}
-              {isAvatarSelected && (
+              {image && isAvatarSelected && (
                 <Image
-                  source={image}
+                  source={{uri : image}}
                   style={{ width: 125, height: 125, borderRadius: 62.5 }}
                 />
               )}
+            </View>
           </View>
         </View>
-      </View>
       </View>
 
       <View style={styles.containertwo}>
         <View style={styles.buttonContainer}>
+
           <TouchableOpacity
             style={styles.buttons}
             onPress={() => selectAvatar(girlImg)}
-            >
-            <ImageBackground
-              source={girlImg}
-              style={styles.GirlImg}
-            />
+          >
+            <Image source={girlImage} style={styles.GirlImg} />
           </TouchableOpacity>
+
           <TouchableOpacity
             style={styles.buttons}
-            onPress={() => setSelectedImage(boyImg)}
+            onPress={() => selectAvatar(boyImg)}
           >
-            <ImageBackground
-              source={boyImg}
-              style={styles.BoyImg}
-            />
+            <Image source={boyImage} style={styles.BoyImg} />
           </TouchableOpacity>
         </View>
       </View>
@@ -218,4 +224,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default ProPicUpload;
