@@ -1,15 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView, StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import React, { useState } from 'react';
 import { COLORS } from '../../assets/constants/constant';
 const startImg = require('../../assets/start2.png')
+import LottieView from 'lottie-react-native';
+import { StatusBar } from 'expo-status-bar';
 
 const IntroPage2 = () => {
 
     return (
         <SafeAreaView style={{ alignItems: 'center' }}>
+            <StatusBar/>
             <View style={styles.imgContainer}>
-                <Image source={startImg} style={styles.img} />
+            <LottieView style={{flex : 1 , height : '100%' , width : '92%'}} source={require('../../assets/intro2.json')} autoPlay loop />
             </View>
             <View style={{ backgroundColor: 'white', backgroundColor: COLORS.primary, width: '80%', borderRadius: 30, alignItems: 'center', height: 350 }}>
                 <Text style={{ fontSize: 25, fontWeight: '700', marginTop: 50, marginLeft: 10, color: COLORS.third, }}>Schedule Your</Text>

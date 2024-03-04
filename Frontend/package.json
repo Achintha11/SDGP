@@ -8,23 +8,19 @@
     "ios": "expo start --ios",
     "web": "expo start --web"
   },
-
-  
-    "expo": {
-      "plugins": [
-        [
-          "expo-image-picker",
-          {
-            "photosPermission": "custom photos permission",
-            "cameraPermission": "Allow $(PRODUCT_NAME) to open the camera",
-  
-            "//": "Disables the microphone permission",
-            "microphonePermission": false
-          }
-        ]
+  "expo": {
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "custom photos permission",
+          "cameraPermission": "Allow $(PRODUCT_NAME) to open the camera",
+          "//": "Disables the microphone permission",
+          "microphonePermission": false
+        }
       ]
-    },
-  
+    ]
+  },
   "dependencies": {
     "@expo/webpack-config": "^19.0.0",
     "@react-native-community/datetimepicker": "7.6.1",
@@ -38,7 +34,7 @@
     "expo-linear-gradient": "~12.7.1",
     "expo-status-bar": "~1.11.1",
     "expo-updates": "~0.24.10",
-    "lottie-react-native": "^6.6.0",
+    "lottie-react-native": "^6.7.0",
     "moment": "^2.30.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
