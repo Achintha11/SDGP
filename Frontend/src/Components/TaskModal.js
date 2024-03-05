@@ -1,21 +1,43 @@
 import React from "react";
-import { View , Text , StyleSheet , TouchableOpacity , SafeAreaView , Modal } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from "react-native";
 import { Entypo } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { PieChart } from 'react-native-gifted-charts';
 import { COLORS } from "../../assets/constants/constant";
 import { Octicons } from '@expo/vector-icons';
+import { useState } from "react";
+import LottieView from 'lottie-react-native';
+import Modal from "react-native-modal";
+import { Shadow } from 'react-native-shadow-2';
+
+
+const TaskModel = ({ modalVisible, setModalVisible, task }) => {
 
 
 
-const TaskModel =({modalVisible, setModalVisible , task})=>{
+    const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
 
+
+    const handleDeleteConfirmation = () => {
+
+        setIsDeleteModalVisible(true);
+
+
+    };
+
+    const afterDel = () => {
+
+        setIsDeleteModalVisible(false);
+        setModalVisible(false)
+
+
+    };
     if (!task) {
         // If there's no selected task, return null or handle accordingly
         return null;
-      }
+    }
 
-      const { Title} = task;
+    const { Title } = task;
 
 
     const completed = 80
@@ -31,82 +53,84 @@ const TaskModel =({modalVisible, setModalVisible , task})=>{
         { value: toComplete, color: 'orange', gradientCenterColor: 'orange' },
     ];
 
-    return(
+
+
+    return (
         <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                isVisible={true}
-                >
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            isVisible={true}
+        >
 
 
-                <View style={styles.centeredView}>
+            <View style={styles.centeredView}>
 
-                    <View style={styles.modalView}>
+                <View style={styles.modalView}>
 
-                        <TouchableOpacity style={styles.closebtn} onPress={() => setModalVisible(false)}>
+                    <TouchableOpacity style={styles.closebtn} onPress={() => setModalVisible(false)}>
                         <Entypo name="chevron-down" size={30} color="black" />
-                        </TouchableOpacity>
+                    </TouchableOpacity>
 
-                        <View style={styles.box1}>
-                            <Text style={styles.title}>{Title}</Text>
-                            <Text style={styles.h2}>Assignment</Text>
+                    <View style={styles.box1}>
+                        <Text style={styles.title}>{Title}</Text>
+                        <Text style={styles.h2}>Assignment</Text>
+                    </View>
+
+
+                    <View style={styles.box2}>
+                        <View style={{ height: '20%', alignContent: 'center' }}>
+                            <Text style={styles.start}>Start : 16 Feb 2024 | 4.00pm</Text>
+                            <Text style={styles.due}>Due   : 16 Feb 2024 | 4.00pm</Text>
+                        </View>
+                        <View>
+                            <Text style={styles.lable3}>Priority Level :  High</Text>
+                        </View>
+                        <View>
+                            <Text style={styles.label4}>Description :  </Text>
                         </View>
 
+                    </View>
 
-                        <View style={styles.box2}>
-                            <View style={{ height: '20%', alignContent: 'center' }}>
-                                <Text style={styles.start}>Start : 16 Feb 2024 | 4.00pm</Text>
-                                <Text style={styles.due}>Due   : 16 Feb 2024 | 4.00pm</Text>
-                            </View>
-                            <View>
-                                <Text style={styles.lable3}>Priority Level :  High</Text>
-                            </View>
-                            <View>
-                                <Text style={styles.label4}>Description :  </Text>
-                            </View>
-
+                    <View style={styles.box3}>
+                        <View>
+                            <Text style={styles.label5}>Task Progress</Text>
                         </View>
 
-                        <View style={styles.box3}>
-                            <View>
-                                <Text style={styles.label5}>Task Progress</Text>
-                            </View>
+                        <View>
+                            <View
+                                style={{
+                                    height: '75%',
+                                    width: '100%',
+                                    borderRadius: 20
+                                }}>
 
-                            <View>
-                                <View
-                                    style={{
-                                        height: '75%',
-                                        width: '100%',
-                                        borderRadius: 20
-                                    }}>
+                                <View style={{ padding: 10, alignItems: 'center' }}>
+                                    <PieChart
+                                        data={pieData}
+                                        donut
+                                        showGradient
+                                        sectionAutoFocus
+                                        radius={90}
+                                        innerRadius={60}
+                                        innerCircleColor={'white'}
+                                        centerLabelComponent={() => {
+                                            return (
+                                                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                                                    <Text
+                                                        style={{ fontSize: 24, color: 'black', fontWeight: 'bold' }}>
+                                                        {pieData[0].value}%
+                                                    </Text>
 
-                                    <View style={{ padding: 10, alignItems: 'center' }}>
-                                        <PieChart
-                                            data={pieData}
-                                            donut
-                                            showGradient
-                                            sectionAutoFocus
-                                            radius={90}
-                                            innerRadius={60}
-                                            innerCircleColor={'white'}
-                                            centerLabelComponent={() => {
-                                                return (
-                                                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                                        <Text
-                                                            style={{ fontSize: 24, color: 'black', fontWeight: 'bold' }}>
-                                                            {pieData[0].value}%
-                                                        </Text>
-                                                        
-                                                    </View>
-                                                );
-                                            }}
-                                        />
-                                    </View>
+                                                </View>
+                                            );
+                                        }}
+                                    />
                                 </View>
                             </View>
+                        </View>
 
-                            <View style={{flexDirection:'row', justifyContent: 'space-evenly'}}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
                             <View style={{ flexDirection: 'row' }}>
                                 <Octicons name="dot-fill" size={20} color="#ffaa00" />
                                 <Text >  To-Do</Text>
@@ -119,24 +143,47 @@ const TaskModel =({modalVisible, setModalVisible , task})=>{
                         </View>
 
 
-                        </View>
-
-                        <View style={styles.box4}>
-
-                            <TouchableOpacity
-                                style={styles.btn}
-                                onPress={() => setModalVisible(false)}>
-                                <AntDesign name="delete" size={24} color="white" />
-                                <Text style={styles.btnText}>Delete Task</Text>
-                            </TouchableOpacity>
-
-                        </View>
-
-
                     </View>
+
+                    <View style={styles.box4}>
+                        <TouchableOpacity
+                            style={styles.btn}
+                            onPress={handleDeleteConfirmation}>
+                            <AntDesign name="delete" size={24} color="white" />
+                            <Text style={styles.btnText}>Delete Task</Text>
+                        </TouchableOpacity>
+                    </View>
+
+
+
+
+                    <Modal coverScreen={true}
+                        animationIn={"fadeIn"}
+                        animationInTiming={1000} hasBackdrop={false}
+                        alignItems={"center"}
+                        isVisible={isDeleteModalVisible}>
+
+
+
+                        <Shadow distance={100}>
+
+                            <View style={styles.deleteModalView}>
+
+                                <Text style={styles.deleteModalText}>Task deleted successfully!</Text>
+                                <LottieView resizeMode="cover" style={{ flex: 1, height: '100%', width: '100%', marginBottom: '20%' }} source={require('../../assets/DeleteTask.json')} autoPlay loop />
+                                <TouchableOpacity onPress={afterDel} style={styles.OkButton}>
+                                    <Text style={styles.OkButtonText}>OK</Text>
+                                </TouchableOpacity>
+                            </View>
+
+                        </Shadow>
+
+
+                    </Modal>
                 </View>
-            </Modal>
-        
+            </View>
+        </Modal>
+
     )
 }
 const styles = StyleSheet.create({
@@ -155,8 +202,8 @@ const styles = StyleSheet.create({
         padding: 15,
         alignItems: 'center',
         shadowColor: '#000',
-        height: '92%',
-        width: '94%',
+        height: '100%',
+        width: '105%',
         shadowOffset: {
             width: 0,
             height: 2,
@@ -164,7 +211,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
-        backgroundColor : COLORS.third
+        backgroundColor: COLORS.third,
     },
 
     closebtn: {
@@ -260,7 +307,7 @@ const styles = StyleSheet.create({
     btn: {
         height: '52%',
         backgroundColor: '#cc0000',
-        width: '38%',
+        width: '42%',
         borderRadius: 10,
         flexDirection: 'row',
         alignItems: 'center',
@@ -271,6 +318,37 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: 'bold',
         marginLeft: '5%',
+        color: COLORS.secondry
+    },
+
+    deleteModalView: {
+        height: 250,
+        width: 300,
+        borderRadius: 20,
+        backgroundColor: 'white',
+        alignItems: 'center',
+    },
+
+    deleteModalText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: 'gray',
+        marginTop: '7%'
+    },
+
+    OkButton: {
+        backgroundColor: COLORS.primary,
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '10%',
+        width: '30%',
+        borderRadius: 8,
+        margin: '6%'
+    },
+
+    OkButtonText: {
+        fontSize: 15,
+        fontWeight: 'bold',
         color: COLORS.secondry
     },
 })
