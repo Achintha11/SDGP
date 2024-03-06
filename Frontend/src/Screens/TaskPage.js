@@ -5,6 +5,7 @@ import TaskCard from "../Components/TaskCard";
 import TaskModel from "../Components/TaskModal";
 import axios from "axios";
 import { COLORS } from "../../assets/constants/constant";
+import { apiUrl } from "../../assets/constants/constant";
 const TaskPage = () => {
   const [searchText, setSearchText] = useState("");
 
@@ -12,7 +13,6 @@ const TaskPage = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
 
-  const apiUrl = "http://10.31.0.104:8080/api/v1/tasks";
 
   const openModal = (task) => {
     setSelectedTask(task);
@@ -22,10 +22,9 @@ const TaskPage = () => {
   useEffect(() => {
     function fetchData() {
       axios
-        .get(apiUrl)
+        .get(apiUrl.get)
         .then((response) => {
           setTask(response.data.tasks);
-          console.log(response.data.tasks);
         })
         .catch((e) => {
           console.log(e);

@@ -13,3 +13,8 @@ export const COLORS = {
   twelveth: '#D6C9FF',
   piccontainer : '#ddccff'
 };
+
+
+export const  apiUrl = {
+  get : 'http://10.31.1.77:8080/api/v1/tasks',
+}
