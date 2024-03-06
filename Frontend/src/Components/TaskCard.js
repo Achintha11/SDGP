@@ -11,9 +11,7 @@ import moment from "moment";
 const TaskCard = ({ task , onTaskCardPress }) => {
   const [starColor, setStarColor] = useState(COLORS.sixth);
   const progress = 0.9;
-  const handleCardPress = () => {
-    console.log("Card Pressed");
-  };
+  
 
   const handleStarPress = () => {
     setStarColor(starColor === COLORS.sixth ? COLORS.seventh : COLORS.sixth);
@@ -22,7 +20,6 @@ const TaskCard = ({ task , onTaskCardPress }) => {
   const startDate = new Date(task.startDate);
 
   const formattedStartDate = moment(startDate).format("YYYY  MMM  DD");
-  console.log(formattedStartDate);
 
   return (
     <Shadow

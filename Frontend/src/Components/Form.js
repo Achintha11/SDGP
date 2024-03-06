@@ -15,6 +15,8 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 
 import axios from "axios";
 
+import { apiUrl } from "../../assets/constants/constant";
+
 const Form = () => {
   const [Title, setTitle] = useState("");
   const [workHours, setWorkHours] = useState("");
@@ -82,10 +84,9 @@ const Form = () => {
         description: description,
       };
 
-      const apiUrl = "http:/172.20.10.2:8080/api/v1/tasks";
 
       try {
-        const response = await axios.post(apiUrl, formData);
+        const response = await axios.post(apiUrl.get, formData);
       } catch (error) {
         console.error("Error:", error);
       }
