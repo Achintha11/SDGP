@@ -2,8 +2,8 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView, StyleSheet, Text, View,TouchableOpacity , Image } from 'react-native';
 import React, { useState } from 'react';
 import { COLORS } from '../../assets/constants/constant';
-const startImg = require('../../assets/start1.png')
-
+const startImg = require('../../assets/start1.png');
+import LottieView from 'lottie-react-native';
 
 
 const IntroPage1 = () => {
@@ -11,8 +11,9 @@ const IntroPage1 = () => {
 
   return (
     <SafeAreaView style={{alignItems : 'center'}}> 
+    <StatusBar/>
       <View style={styles.imgContainer}>
-        <Image source={startImg} style={styles.img}/>
+      <LottieView style={{ flex: 1, height: '100%', width: '100%' }} source={require('../../assets/intro1.json')} autoPlay loop />
       </View>
       <View style={{ backgroundColor: 'white' ,backgroundColor : COLORS.primary ,width : '80%' ,borderRadius : 30,alignItems:'center',height : 350}}>
         <Text style={{ fontSize: 25, fontWeight: '700', marginTop: 50, marginLeft: 20 ,color : COLORS.third ,}}>Time & Task </Text>
@@ -54,7 +55,10 @@ const styles = StyleSheet.create({
 
   },
   imgContainer :{
-    overflow : 'hidden'
+    height: '55%',
+    width: '100%',
+    overflow: 'hidden',
+    alignItems: 'center'
 
   },
   img : {

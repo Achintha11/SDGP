@@ -36,6 +36,7 @@
     "expo-status-bar": "~1.11.1",
     "expo-updates": "~0.24.11",
     "lottie-react-native": "6.5.1",
+
     "moment": "^2.30.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -43,6 +44,7 @@
     "react-native-curved-bottom-bar": "^3.2.6",
     "react-native-gesture-handler": "~2.14.0",
     "react-native-gifted-charts": "^1.4.7",
+    "react-native-modal": "^13.0.1",
     "react-native-modal-datetime-picker": "^17.1.0",
     "react-native-modern-datepicker": "^1.0.0-beta.91",
     "react-native-picker-select": "^9.0.1",
