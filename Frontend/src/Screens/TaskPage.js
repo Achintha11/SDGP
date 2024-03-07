@@ -12,6 +12,10 @@ const TaskPage = () => {
   const [tasks, setTask] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
+  const [refreshPage, setRefreshPage] = useState(false); // Add state to trigger page refresh
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+
+
 
 
   const openModal = (task) => {
@@ -31,7 +35,25 @@ const TaskPage = () => {
         });
     }
     fetchData();
-  }, []);
+  }, [refreshPage]);
+
+
+  const handleDeleteConfirmation = async ({ id, url }) => {
+    try {
+      const response = await axios.delete(url + id);
+      if (response.status === 200) {
+       setIsDeleteModalVisible(true);
+        setRefreshPage(!refreshPage);
+
+      } else {
+        throw new Error(
+          `Delete Request failed with status code ${response.status} `
+        );
+      }
+    } catch (error) {
+      console.error("Error Deleting", error);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -74,6 +96,9 @@ const TaskPage = () => {
             modalVisible={modalVisible}
             setModalVisible={setModalVisible}
             task={selectedTask}
+            handleDeleteConfirmation={handleDeleteConfirmation}
+            isDeleteModalVisible={isDeleteModalVisible}
+            setIsDeleteModalVisible={setIsDeleteModalVisible}
           />
         </View>
       </View>
