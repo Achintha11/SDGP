@@ -10,7 +10,7 @@ const IntroPage1 = () => {
   
 
   return (
-    <SafeAreaView style={{alignItems : 'center'}}> 
+    <SafeAreaView style={{flex : 1 ,alignItems : 'center' , backgroundColor : COLORS.secondry}}> 
     <StatusBar/>
       <View style={styles.imgContainer}>
       <LottieView style={{ flex: 1, height: '100%', width: '100%' }} source={require('../../assets/intro1.json')} autoPlay loop />

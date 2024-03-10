@@ -1,7 +1,29 @@
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View, Image , StatusBar } from 'react-native';
 const StudyMateImage = require('../../assets/StudyMateLogo.png');
 import { COLORS } from '../../assets/constants/constant';
+import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook
+
+
+
+
+
+
 export default function IntroPage3() {
+
+const navigation = useNavigation(); // Initialize navigation object
+
+const handleSignUpPress = () => {
+  // Navigate to SignUpScreen when Sign Up button is pressed
+  navigation.navigate('SignUpScreen');
+};
+
+const handleSigninPress = () =>{
+  navigation.navigate('SignInScreen')
+}
+
+
+
+  
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={COLORS.secondry} />
@@ -16,11 +38,11 @@ export default function IntroPage3() {
         <Text style={styles.Description1}>Task  &  Projects</Text>
         <Text style={styles.Description1}>Easily</Text>
 
-        <TouchableOpacity style={styles.btn1}>
+        <TouchableOpacity onPress={handleSignUpPress} style={styles.btn1}>
           <Text style={styles.btnText1}>Sign Up</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.btn2}>
+        <TouchableOpacity onPress={handleSigninPress} style={styles.btn2}>
           <Text style={styles.btnText2}>Log In</Text>
         </TouchableOpacity>
   </View>

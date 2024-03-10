@@ -18,23 +18,7 @@ import { Shadow } from "react-native-shadow-2";
 
 
 const TaskModel = ({ modalVisible, setModalVisible, task , handleDeleteConfirmation  , isDeleteModalVisible , setIsDeleteModalVisible}) => {
-
-//   const handleDeleteConfirmation = async ({ id, url }) => {
-//     console.log(id);
-//     try {
-//       const response = await axios.delete(url + id);
-//       if (response.status === 200) {
-//         setIsDeleteModalVisible(false);
-//       } else {
-//         throw new Error(
-//           `Delete Request failed with status code ${response.status} `
-//         );
-//       }
-//     } catch (error) {
-//       console.error("Error Deleting", error);
-//     }
-//   };
-
+    
   const afterDel = () => {
     setIsDeleteModalVisible(false);
     setModalVisible(false);
@@ -182,9 +166,9 @@ const TaskModel = ({ modalVisible, setModalVisible, task , handleDeleteConfirmat
                   resizeMode="cover"
                   style={{
                     flex: 1,
-                    height: "100%",
+                    height: 500,
                     width: "100%",
-                    marginBottom: "20%",
+                    marginBottom: 1,
                   }}
                   source={require("../../assets/DeleteTask.json")}
                   autoPlay
@@ -358,7 +342,8 @@ const styles = StyleSheet.create({
     height: "10%",
     width: "30%",
     borderRadius: 8,
-    margin: "6%",
+    marginBottom: "5%",
+    marginTop : '3%'
   },
 
   OkButtonText: {
