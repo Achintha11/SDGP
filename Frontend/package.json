@@ -43,6 +43,7 @@
     "react-native-curved-bottom-bar": "^3.2.6",
     "react-native-gesture-handler": "~2.14.0",
     "react-native-gifted-charts": "^1.4.7",
+    "react-native-indicators": "^0.17.0",
     "react-native-modal": "^13.0.1",
     "react-native-modal-datetime-picker": "^17.1.0",
     "react-native-modern-datepicker": "^1.0.0-beta.91",

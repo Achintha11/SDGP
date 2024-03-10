@@ -7,13 +7,19 @@ import CurvedBottomBar from "./CurvedBottomBar";
 import Swiper from "./Swiper";
 import SignUp from "../Screens/SignUp";
 import Welcome from "../Screens/WelcomePage";
+import StartPage from "../Screens/StartPage";
 
 const Stack = createStackNavigator();
 
 const Tabs = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="MainTab">
+      <Stack.Navigator initialRouteName="StartPage">
+      <Stack.Screen
+          name="StartPage"
+          component={StartPage}
+          options={{ headerShown: false }}
+        />        
         <Stack.Screen
           name="swiper"
           component={Swiper}
