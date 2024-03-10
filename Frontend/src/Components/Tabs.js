@@ -4,6 +4,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import CurvedBottomBar from "./CurvedBottomBar";
+import Swiper from "./Swiper";
+import SignUp from "../Screens/SignUp";
+import Welcome from "../Screens/WelcomePage";
 
 const Stack = createStackNavigator();
 
@@ -11,6 +14,23 @@ const Tabs = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="MainTab">
+        <Stack.Screen
+          name="swiper"
+          component={Swiper}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="SignUpScreen"
+          component={SignUp}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="SignInScreen"
+          component={Welcome}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="MainTab"
           component={CurvedBottomBar}

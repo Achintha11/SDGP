@@ -101,7 +101,7 @@ const SignUp = () => {
 const styles = StyleSheet.create({
 
   CreateText: {
-    fontSize: '45%',
+    fontSize: 45,
     fontWeight: 'bold',
     marginTop: '12%',
     marginLeft: '5%'
