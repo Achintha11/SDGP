@@ -16,6 +16,8 @@ import Carousel from "react-native-snap-carousel";
 import { useState } from "react";
 import * as Progress from "react-native-progress";
 import { COLORS } from "../../assets/constants/constant";
+import LottieView from 'lottie-react-native';
+
 
 const progress = 0.4;
 
@@ -29,6 +31,7 @@ const renderItem = ({ item }) => {
       }}
     >
       <ImageBackground
+      
         source={require("../../assets/carouselImg1.png")}
         style={styles.CarouselImg}
       >
@@ -66,15 +69,18 @@ const App = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle={'dark-content'}/>
+      <StatusBar backgroundColor={COLORS.third} barStyle={'dark-content'}/>
       
       <ScrollView contentContainerStyle={styles.scrollViewContent} showsVerticalScrollIndicator={false}>
         <View style={styles.upperview}>
           <TouchableOpacity style={styles.notificationContainer1}>
-            <Image
+             <Image
               source={require("../../assets/menuicon.png")}
               style={styles.Notifications}
-            ></Image>
+            ></Image> 
+
+            
+
           </TouchableOpacity>
           <TouchableOpacity style={styles.notificationContainer2}>
             <Image
@@ -87,7 +93,8 @@ const App = () => {
         <TouchableOpacity style={styles.MainCardContainer}>
           <Shadow distance={10} startColor={"#e6e6e6"} offset={[0, 0]}>
             <View style={styles.MainCard}>
-              <ImageBackground
+            
+               <ImageBackground
                 source={require("../../assets/HomePage_MainCard_Image.png")}
                 style={styles.backgroundImage}
               >
