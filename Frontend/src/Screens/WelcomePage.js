@@ -3,8 +3,11 @@ import { Text, View, TextInput, TouchableWithoutFeedback, TouchableOpacity, Styl
 import { Feather } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { COLORS } from '../../assets/constants/constant';
+import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook
 
 const WelcomePage = () => {
+
+  const navigation = useNavigation(); // Initialize navigation object
 
   const [passwordVisible, setPasswordVisible] = useState(true);
   const [email, setEmail] = useState('');
@@ -31,9 +34,13 @@ const WelcomePage = () => {
     validateEmail();
 
     if (!emailError) {
-      console.log('Continue pressed!');
+      navigation.navigate('MainTab')
+
+      
     }
-  };
+      
+    }
+  
 
   return (
     <View>
