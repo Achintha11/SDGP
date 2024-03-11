@@ -8,18 +8,19 @@ import Swiper from "./Swiper";
 import SignUp from "../Screens/SignUp";
 import Welcome from "../Screens/WelcomePage";
 import StartPage from "../Screens/StartPage";
+import TaskSuccess from "../Screens/TaskSuccess"
 
 const Stack = createStackNavigator();
 
 const Tabs = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="StartPage">
-      <Stack.Screen
+      <Stack.Navigator initialRouteName="MainTab">
+        <Stack.Screen
           name="StartPage"
           component={StartPage}
           options={{ headerShown: false }}
-        />        
+        />
         <Stack.Screen
           name="swiper"
           component={Swiper}
@@ -29,6 +30,12 @@ const Tabs = () => {
         <Stack.Screen
           name="SignUpScreen"
           component={SignUp}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="TaskAdded"
+          component={TaskSuccess}
           options={{ headerShown: false }}
         />
 

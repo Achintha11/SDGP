@@ -16,8 +16,10 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import axios from "axios";
 
 import { apiUrl } from "../../assets/constants/constant";
+import { useNavigation } from '@react-navigation/native';
 
 const Form = () => {
+  const navigation = useNavigation(); 
   const [Title, setTitle] = useState("");
   const [workHours, setWorkHours] = useState("");
   const [description, setDescription] = useState("");
@@ -87,6 +89,8 @@ const Form = () => {
 
       try {
         const response = await axios.post(apiUrl.get, formData);
+        navigation.navigate('TaskAdded')
+        
       } catch (error) {
         console.error("Error:", error);
       }
