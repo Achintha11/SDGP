@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, TextInput, TouchableWithoutFeedback, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, TextInput, TouchableWithoutFeedback, TouchableOpacity, StyleSheet, SafeAreaView, StatusBar } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { COLORS } from '../../assets/constants/constant';
@@ -43,7 +43,8 @@ const WelcomePage = () => {
   
 
   return (
-    <View>
+    <SafeAreaView>
+      <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.third}/>
       <View>
         <Text style={styles.welcomeText}> Welcome Back </Text>
       </View>
@@ -123,7 +124,7 @@ const WelcomePage = () => {
           <Text style={styles.signUp}> Sign Up</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

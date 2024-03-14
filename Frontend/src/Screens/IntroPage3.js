@@ -65,7 +65,6 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     resizeMode : 'contain',
-    borderWidth : 2,
   },
 
   box1: {
