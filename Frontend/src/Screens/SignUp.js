@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, StatusBar } from 'react-native';
 import { Feather, FontAwesome } from '@expo/vector-icons';
 import { COLORS } from '../../assets/constants/constant'
 import { getAuth, createUserWithEmailAndPassword, getReactNativePersistence } from "firebase/auth";
@@ -39,7 +39,8 @@ const SignUp = () => {
   };
 
   return (
-    <View>
+    <SafeAreaView>
+      <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.third}/>
 
       <Text style={styles.CreateText}>Create an Account</Text>
 
@@ -119,7 +120,7 @@ const SignUp = () => {
         </View>
 
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

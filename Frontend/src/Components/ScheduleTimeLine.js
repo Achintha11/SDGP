@@ -17,29 +17,33 @@ const ScheduleScreen1 = ({ selectedDate }) => {
   
   const [items, setItems] = useState([
     {
-      title: "OOP",
-      startDate: moment("2024-03-10T06:15:00").toDate(), // Set the start date and time for the new event (8:00 AM)
-      endDate: moment("2024-03-10T08:45:00").toDate(), // Set the end date and time (10:30 AM)
+      title: "OOP ",
+      subTitle : "Sub Task 1",
+      startDate: moment("2024-03-14T06:15:00").toDate(), // Set the start date and time for the new event (8:00 AM)
+      endDate: moment("2024-03-14T08:45:00").toDate(), // Set the end date and time (10:30 AM)
       color: "#0A014F",
     },
     {
       title: "Algo", // Change this to your desired event title
-      startDate: moment("2024-03-07T10:15:00").toDate(), // Set the start date and time for the new event (8:00 AM)
-      endDate: moment("2024-03-07T11:45:00").toDate(), // Set the end date and time (10:30 AM)
+      subTitle : "Sub Task 1",
+      startDate: moment("2024-03-15T10:15:00").toDate(), // Set the start date and time for the new event (8:00 AM)
+      endDate: moment("2024-03-15T11:45:00").toDate(), // Set the end date and time (10:30 AM)
       color: "#DB2B39",
     },
 
     {
-      title: "3rd Event", // Change this to your desired event title
-      startDate: moment("2024-03-08T12:00:00").toDate(), // Set the start date and time for the new event (8:00 AM)
-      endDate: moment("2024-03-08T13:00:00").toDate(), // Set the end date and time (10:30 AM)
+      title: "Server Side", // Change this to your desired event title
+      subTitle : "Sub Task 1",
+      startDate: moment("2024-03-14T12:00:00").toDate(), // Set the start date and time for the new event (8:00 AM)
+      endDate: moment("2024-03-14T13:00:00").toDate(), // Set the end date and time (10:30 AM)
       color: "#F58A07",
     },
 
     {
       title: "4th Event", // Change this to your desired event title
-      startDate: moment("2024-03-07T14:30:00").toDate(), // Set the start date and time for the new event (8:00 AM)
-      endDate: moment("2024-03-07T16:30:00").toDate(), // Set the end date and time (10:30 AM)
+      subTitle : "Sub Task 1",
+      startDate: moment("2024-03-14T14:30:00").toDate(), // Set the start date and time for the new event (8:00 AM)
+      endDate: moment("2024-03-14T16:30:00").toDate(), // Set the end date and time (10:30 AM)
       color: "#45503B",
     },
   ]);

@@ -8,14 +8,15 @@ import Swiper from "./Swiper";
 import SignUp from "../Screens/SignUp";
 import Welcome from "../Screens/WelcomePage";
 import StartPage from "../Screens/StartPage";
-import TaskSuccess from "../Screens/TaskSuccess"
+import TaskSuccess from "../Screens/TaskSuccess";
+import ScheduleProgress from "../Screens/ScheduleProgress"
 
 const Stack = createStackNavigator();
 
 const Tabs = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="SignUp">
+      <Stack.Navigator initialRouteName="StartPage">
         <Stack.Screen
           name="StartPage"
           component={StartPage}
@@ -24,6 +25,12 @@ const Tabs = () => {
         <Stack.Screen
           name="swiper"
           component={Swiper}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="SubTaskSession"
+          component={ScheduleProgress}
           options={{ headerShown: false }}
         />
 
