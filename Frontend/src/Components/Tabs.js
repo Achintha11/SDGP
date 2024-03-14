@@ -15,7 +15,7 @@ const Stack = createStackNavigator();
 const Tabs = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="MainTab">
+      <Stack.Navigator initialRouteName="SignUp">
         <Stack.Screen
           name="StartPage"
           component={StartPage}

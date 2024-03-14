@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
 import { Text, View, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { Feather, FontAwesome } from '@expo/vector-icons';
-import { COLORS } from '../../assets/constants/constant';
+import { COLORS } from '../../assets/constants/constant'
+import { getAuth, createUserWithEmailAndPassword, getReactNativePersistence } from "firebase/auth";
+import auth from '../../firebaseConfig';
+
+
 
 const SignUp = () => {
   const [passwordVisible, setPasswordVisible] = useState(true);
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+
 
   const handleForgotPress = () => {
     console.log('Forgot Password pressed!');
@@ -18,6 +25,19 @@ const SignUp = () => {
     setPasswordVisible(!passwordVisible);
   };
 
+
+  const createUser = () => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user) 
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
+  };
+
   return (
     <View>
 
@@ -28,7 +48,6 @@ const SignUp = () => {
         <View style={styles.userView}>
           <Feather name="user" size={20} color={COLORS.fourth} />
           <TextInput
-          
             style={{ fontSize: 18, marginLeft: '3%' }}
             placeholder='User Name'
             placeholderTextColor={COLORS.fourth}
@@ -38,6 +57,9 @@ const SignUp = () => {
         <View style={styles.emailView}>
           <Feather name="mail" size={20} color={COLORS.fourth} />
           <TextInput
+            value={email}
+            onChangeText={setEmail}
+
             style={{ fontSize: 18, marginLeft: '3%' }}
             placeholder='Email Address'
             placeholderTextColor={COLORS.fourth}
@@ -48,6 +70,9 @@ const SignUp = () => {
         <View style={styles.passwordView}>
           <Feather name="lock" size={20} color={COLORS.fourth} />
           <TextInput
+            value={password}
+            onChangeText={setPassword}
+
             style={{ fontSize: 18, flex: 1, marginLeft: '3%' }}
             placeholder='Password'
             secureTextEntry={passwordVisible}
@@ -71,7 +96,7 @@ const SignUp = () => {
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={styles.button} onPress={() => console.log('Continue pressed!')}>
+        <TouchableOpacity style={styles.button} onPress={() => createUser()}>
           <Text style={styles.buttonText}>Continue</Text>
         </TouchableOpacity>
 
