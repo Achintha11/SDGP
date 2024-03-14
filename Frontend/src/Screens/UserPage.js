@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, TouchableOpacity, Image, StatusBar } from 'react-native';
 import { COLORS } from '../../assets/constants/constant';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -11,6 +11,7 @@ import { Fontisto } from '@expo/vector-icons';
 const UserPage = () => {
     return (
         <SafeAreaView style={styles.container}>
+        <StatusBar backgroundColor={COLORS.third} barStyle={'dark-content'}/>
 
             <View style={styles.header}>
                 <View style={{ marginRight: '25%', marginLeft: '39%'}} >

@@ -1,15 +1,22 @@
 import { StatusBar } from 'react-native';
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { COLORS } from '../assets/constant/constants';
 import { Ionicons } from '@expo/vector-icons';
 import { PieChart } from 'react-native-gifted-charts';
+import { COLORS } from '../../assets/constants/constant';
 import { Shadow } from 'react-native-shadow-2';
 import { Octicons } from '@expo/vector-icons';
+import moment from 'moment';
 
-const App = () => {
+const App = ({route}) => {
+
+    const { startDate, endDate, title , color  } = route.params;
     const completed = 70
     const thisSession = 10
     const toComplete = 100 - (completed + thisSession)
+
+    const formattedStartDate = moment(startDate).format("YYYY  MMM  DD");
+    const formattedDueDate = moment(endDate).format("YYYY  MMM  DD");
+
 
     const pieData = [
         {
@@ -24,12 +31,13 @@ const App = () => {
 
 
     return (
-        <SafeAreaView style={styles.container}>
-            <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.fifth} />
-
+        <SafeAreaView style={{ flex: 1,
+            alignItems: 'center' , backgroundColor: color}}>
+            <StatusBar barStyle={'light-content'} backgroundColor={color} />
+            
             <View style={styles.box1}>
                 <TouchableOpacity><Ionicons name="chevron-back" size={40} color="white" /></TouchableOpacity>
-                <Text style={styles.title}>OOP</Text>
+                <Text style={styles.title}>{title}</Text>
             </View>
 
 
@@ -37,8 +45,8 @@ const App = () => {
                 <View style={styles.box2}>
                     <Text style={styles.h1}>📋 Assignment</Text>
                     <View>
-                        <Text style={styles.start}>Start : 16 Feb 2024 | 4.00pm</Text>
-                        <Text style={styles.due}>Due : 16 Feb 2024 | 4.00pm</Text>
+                        <Text style={styles.start}>Start : {formattedStartDate}</Text>
+                        <Text style={styles.due}>Due : {formattedDueDate}</Text>
                     </View>
                     <View style={styles.box5}>
                         <View>
@@ -64,7 +72,7 @@ const App = () => {
                                 sectionAutoFocus
                                 radius={90}
                                 innerRadius={58}
-                                innerCircleColor={COLORS.fifth}
+                                innerCircleColor={color}
                                 centerLabelComponent={() => {
                                     return (
                                         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -117,7 +125,6 @@ const App = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLORS.fifth,
         alignItems: 'center'
     },
 
@@ -235,7 +242,7 @@ const styles = StyleSheet.create({
     btn1: {
         height: '36%',
         width: '36%',
-        backgroundColor: COLORS.seventh,
+        backgroundColor: COLORS.eleventh,
         margin: '5%',
         justifyContent: 'center',
         borderRadius: 22,
@@ -245,7 +252,7 @@ const styles = StyleSheet.create({
     btn2: {
         height: '36%',
         width: '36%',
-        backgroundColor: COLORS.sixth,
+        backgroundColor: 'green',
         margin: '5%',
         justifyContent: 'center',
         borderRadius: 22,

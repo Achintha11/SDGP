@@ -150,15 +150,15 @@ const TaskModel = ({ modalVisible, setModalVisible, task, handleDeleteConfirmati
                         alignItems={"center"}
                         isVisible={isDeleteModalVisible}
                     >
-                        <Shadow distance={100}>
+                        <Shadow  distance={100}>
                             <View style={styles.deleteModalView}>
                                 <Text style={styles.deleteModalText}>
                                     Task deleted successfully!
                                 </Text>
-                                <LottieView resizeMode="cover" style={{ flex: 1, height: 300, width: 300,  marginTop : '30%'}} source={require('../../assets/DeleteFinal2.json')} autoPlay loop />
-                                    <TouchableOpacity onPress={afterDel} style={styles.OkButton}>
-                                        <Text style={styles.OkButtonText}>OK</Text>
-                                    </TouchableOpacity>
+                                <LottieView resizeMode="cover" style={{ flex :1, height: 300, width: 200,}} source={require('../../assets/DeleteFinal2.json')} autoPlay loop />
+                                <TouchableOpacity onPress={afterDel} style={styles.OkButton}>
+                                    <Text style={styles.OkButtonText}>OK</Text>
+                                </TouchableOpacity>
 
                             </View>
                         </Shadow>
@@ -340,8 +340,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         height: "10%",
-        width: "30%",
-        marginTop : '30%',
+        width: "40%",
         marginBottom  : '10%',
         borderRadius: 8,
     },
