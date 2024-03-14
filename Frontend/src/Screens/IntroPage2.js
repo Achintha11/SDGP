@@ -1,11 +1,4 @@
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-} from "react-native";
+import {SafeAreaView,StyleSheet,Text,View,TouchableOpacity,Image,} from "react-native";
 import React, { useState } from "react";
 import { COLORS } from "../../assets/constants/constant";
 const startImg = require("../../assets/start2.png");
@@ -14,77 +7,25 @@ import { StatusBar } from "expo-status-bar";
 
 const IntroPage2 = () => {
   return (
-    <SafeAreaView style={{ flex: 1, alignItems: "center" , backgroundColor : COLORS.secondry }}>
+    <SafeAreaView style={{ flex: 1, alignItems: "center", backgroundColor: COLORS.secondry }}>
       <StatusBar />
       <View style={styles.imgContainer}>
-        <LottieView
-        loop={true}
-        autoPlay ={true}
-          style={{ flex: 1, height: '90%', width: '90%'  }}
-          source={require("../../assets/intro2.json")}
-          
-        />
-      </View> 
-      <View
-        style={{
-          backgroundColor: "white",
-          backgroundColor: COLORS.primary,
-          width: "80%",
-          borderRadius: 30,
-          alignItems: "center",
-          height: 350,
-        }}
-      >
-        <Text
-          style={{
-            fontSize: 25,
-            fontWeight: "700",
-            marginTop: 50,
-            marginLeft: 10,
-            color: COLORS.third,
-          }}
-        >
-          Schedule Your
-        </Text>
+        <LottieView loop={true} autoPlay={true} style={{ flex: 1, height: '90%', width: '90%' }} source={require("../../assets/intro2.json")} />
+      </View>
 
-        <Text
-          style={{
-            fontSize: 25,
-            fontWeight: "700",
-            marginTop: 10,
-            marginLeft: 10,
-            color: COLORS.third,
-          }}
-        >
-          Tasks & Projects Easily
-        </Text>
-        <Text
-          style={{
-            fontSize: 25,
-            fontWeight: "700",
-            marginTop: 10,
-            marginLeft: 10,
-            color: COLORS.third,
-          }}
-        >
-          {" "}
-          With StudyMate!{" "}
-        </Text>
+      <View style={{  backgroundColor: COLORS.primary, width: "75%", borderRadius: 30,  height: '45%', padding:'10%',alignItems:'center'}} >
+        <Text style={styles.Description}>Schedule Your</Text>
+        <Text style={styles.Description}>Tasks & Projects</Text>
+        <Text style={styles.Description}>Easily With</Text>
+        <Text style={styles.Description}>StudyMate!</Text>
+
 
         <TouchableOpacity style={styles.btn}>
           <Text style={styles.btnText}>Next</Text>
         </TouchableOpacity>
+
         <TouchableOpacity>
-          <Text
-            style={{
-              color: COLORS.third,
-              fontSize: 16,
-              fontWeight: "bold",
-              opacity: 0.8,
-            }}
-          >
-            Skip
-          </Text>
+          <Text style={{ color: COLORS.third, fontSize: 16, fontWeight: "bold", opacity: 0.8, }}>Skip</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -94,7 +35,7 @@ const IntroPage2 = () => {
 const styles = StyleSheet.create({
   btn: {
     margin: 60,
-    height: "12%",
+    height: "15%",
     backgroundColor: "white",
     width: "40%",
     alignItems: "center",
@@ -105,13 +46,13 @@ const styles = StyleSheet.create({
   },
 
   btnText: {
-    fontSize: 19,
+    fontSize: 16,
     fontWeight: "bold",
     color: COLORS.primary,
   },
 
   imgContainer: {
-    height: '55%',
+    height: '50%',
     width: '100%',
     overflow: 'hidden',
     alignItems: 'center'
@@ -121,6 +62,15 @@ const styles = StyleSheet.create({
     height: 350,
     resizeMode: "contain",
     width: 300,
+  },
+
+  Description: {
+    marginTop: 2,
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: 'white',
+ 
+    
   },
 });
 

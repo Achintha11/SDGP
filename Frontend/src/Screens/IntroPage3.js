@@ -1,29 +1,21 @@
-import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View, Image , StatusBar } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View, Image, StatusBar } from 'react-native';
 const StudyMateImage = require('../../assets/StudyMateLogo.png');
 import { COLORS } from '../../assets/constants/constant';
 import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook
 
-
-
-
-
-
 export default function IntroPage3() {
 
-const navigation = useNavigation(); // Initialize navigation object
+  const navigation = useNavigation(); // Initialize navigation object
 
-const handleSignUpPress = () => {
-  // Navigate to SignUpScreen when Sign Up button is pressed
-  navigation.navigate('SignUpScreen');
-};
+  const handleSignUpPress = () => {
+    // Navigate to SignUpScreen when Sign Up button is pressed
+    navigation.navigate('SignUpScreen');
+  };
 
-const handleSigninPress = () =>{
-  navigation.navigate('SignInScreen')
-}
+  const handleSigninPress = () => {
+    navigation.navigate('SignInScreen')
+  }
 
-
-
-  
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={COLORS.secondry} />
@@ -34,9 +26,9 @@ const handleSigninPress = () =>{
       </View>
 
       <View style={styles.box2}>
-        <Text style={styles.Description1}>Schedule Your</Text>
-        <Text style={styles.Description1}>Task  &  Projects</Text>
-        <Text style={styles.Description1}>Easily</Text>
+        <Text style={styles.Description}>Schedule Your</Text>
+        <Text style={styles.Description}>Task  &  Projects</Text>
+        <Text style={styles.Description}>Easily!</Text>
 
         <TouchableOpacity onPress={handleSignUpPress} style={styles.btn1}>
           <Text style={styles.btnText1}>Sign Up</Text>
@@ -45,10 +37,8 @@ const handleSigninPress = () =>{
         <TouchableOpacity onPress={handleSigninPress} style={styles.btn2}>
           <Text style={styles.btnText2}>Log In</Text>
         </TouchableOpacity>
-  </View>
-
+      </View>
     </SafeAreaView>
-
   );
 }
 
@@ -56,23 +46,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.secondry,
-    alignItems : 'center'
+    alignItems: 'center'
   },
 
-  
   StudyMateLogo: {
     height: '75%',
     width: '100%',
     alignItems: 'center',
-    resizeMode : 'contain',
+    resizeMode: 'contain',
   },
 
   box1: {
     height: '50%',
     alignItems: 'center',
-    width : '100%',
-    backgroundColor : 'white',
-    overflow : 'hidden',
+    width: '100%',
+    backgroundColor: 'white',
+    overflow: 'hidden',
     marginBottom: 10,
     marginTop: 15
   },
@@ -81,13 +70,13 @@ const styles = StyleSheet.create({
     fontSize: 35,
     color: 'gray',
     fontWeight: 'bold',
-    marginTop:-60
+    marginTop: -60
   },
 
   timetask: {
     fontWeight: 'bold',
     color: 'gray',
-    marginTop : 10
+    marginTop: 10
   },
 
   box2: {
@@ -97,9 +86,10 @@ const styles = StyleSheet.create({
     padding: '10%',
     alignItems: 'center',
     backgroundColor: COLORS.primary,
+    marginTop: '-7%'
   },
 
-  Description1: {
+  Description: {
     marginTop: 2,
     fontSize: 25,
     fontWeight: 'bold',
@@ -124,7 +114,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
-    
+
   },
 
   btnText1: {
