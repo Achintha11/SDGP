@@ -7,40 +7,35 @@ import LottieView from 'lottie-react-native';
 
 
 const IntroPage1 = () => {
-  
-
   return (
     <SafeAreaView style={{flex : 1 ,alignItems : 'center' , backgroundColor : COLORS.secondry}}> 
     <StatusBar/>
       <View style={styles.imgContainer}>
       <LottieView style={{ flex: 1, height: '100%', width: '100%' }} source={require('../../assets/intro1.json')} autoPlay loop />
       </View>
-      <View style={{ backgroundColor: 'white' ,backgroundColor : COLORS.primary ,width : '80%' ,borderRadius : 30,alignItems:'center',height : 350}}>
-        <Text style={{ fontSize: 25, fontWeight: '700', marginTop: 50, marginLeft: 20 ,color : COLORS.third ,}}>Time & Task </Text>
+      <View style={{backgroundColor : COLORS.primary ,width : '75%' ,borderRadius : 30,alignItems:'center',height : '45%', padding:'10%'}}>
+        <Text style={styles.Description}>Time & Task </Text>
+        <Text style={styles.Description}>Management App </Text>
+        <Text style={styles.Description}> for Everyone!</Text>
 
-        <Text style={{ fontSize: 25, fontWeight: '700', marginTop: 10, marginLeft: 10 ,color : COLORS.third }}>Management App </Text>
-        <Text style={{ fontSize: 25, fontWeight: '700', marginTop : 10, marginLeft: 10 ,color : COLORS.third }}> for Everyone!</Text>
         <TouchableOpacity style={styles.btn}>
         <Text style={styles.btnText}>Get Started</Text>
         </TouchableOpacity>
+
         <TouchableOpacity>
           <Text style={{color : COLORS.third,fontSize : 16,fontWeight : 'bold',opacity : 0.8}}>Skip</Text>
         </TouchableOpacity>
-      
       </View>
-
-
-    </SafeAreaView>
-    
-        
+    </SafeAreaView>  
   );
 };
+
 const styles = StyleSheet.create({
   btn : {
     margin : 60,
-    height : '12%',
+    height : '15%',
     backgroundColor : 'white',
-    width : '50%',
+    width : '55%',
     alignItems : 'center',
     justifyContent : 'center',
     borderRadius : 10,
@@ -49,13 +44,13 @@ const styles = StyleSheet.create({
   },
 
   btnText : {
-    fontSize : 19,
+    fontSize : 16,
     fontWeight : 'bold',
     color : COLORS.primary
 
   },
   imgContainer :{
-    height: '55%',
+    height: '50%',
     width: '100%',
     overflow: 'hidden',
     alignItems: 'center'
@@ -66,10 +61,15 @@ const styles = StyleSheet.create({
     resizeMode : 'contain',
     width : 300,
   },
+
+  Description: {
+    marginTop: 2,
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: 'white',
+  },
+
+
 });
-
-
-  
-
 
 export default IntroPage1;
