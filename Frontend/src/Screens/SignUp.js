@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { Text, View, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, StatusBar } from 'react-native';
 import { Feather, FontAwesome } from '@expo/vector-icons';
 import { COLORS } from '../../assets/constants/constant'
-import { getAuth, createUserWithEmailAndPassword, getReactNativePersistence } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, getReactNativePersistence, sendEmailVerification } from "firebase/auth";
 import auth from '../../firebaseConfig';
+
 
 
 
@@ -30,13 +31,22 @@ const SignUp = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user) 
+        console.log(user)
+        sendEmailVerification(user);
+
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+        console.error(errorCode, errorMessage);
+
       });
   };
+  
+
+ 
+  
+  
 
   return (
     <SafeAreaView>
