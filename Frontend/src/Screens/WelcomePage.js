@@ -4,14 +4,17 @@ import { Feather } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { COLORS } from '../../assets/constants/constant';
 import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook
+import auth from '../../firebaseConfig';
+import { getAuth, createUserWithEmailAndPassword, getReactNativePersistence, signInWithEmailAndPassword } from "firebase/auth";
+
 
 const WelcomePage = () => {
-
   const navigation = useNavigation(); // Initialize navigation object
 
   const [passwordVisible, setPasswordVisible] = useState(true);
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
+  const [password, setPassword] = useState("");
 
   const handleForgotPress = () => {
     console.log('Forgot Password pressed!');
@@ -36,15 +39,28 @@ const WelcomePage = () => {
     if (!emailError) {
       navigation.navigate('MainTab')
 
-      
+
     }
-      
-    }
-  
+
+  }
+
+  const login = () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then(async (userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log(user)
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorMessage)
+      });
+  };
 
   return (
     <SafeAreaView>
-      <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.third}/>
+      <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.third} />
       <View>
         <Text style={styles.welcomeText}> Welcome Back </Text>
       </View>
@@ -73,9 +89,12 @@ const WelcomePage = () => {
 
           <Feather name="lock" size={20} color={COLORS.fourth} />
           <TextInput
+            value={password}
+            onChangeText={setPassword}
             style={{
               fontSize: 20,
-              marginLeft: '3%'
+              marginLeft: '3%',
+              flex: 1
             }}
             secureTextEntry={passwordVisible}
             placeholder='Password'
@@ -88,12 +107,12 @@ const WelcomePage = () => {
               name={passwordVisible ? 'eye-off' : 'eye'}
               size={20}
               color={COLORS.sixth}
-              marginLeft='50%'
+              style={{ marginRight: '3%', marginLeft: '5%'}}
             />
           </TouchableWithoutFeedback>
         </View>
 
-        <TouchableOpacity style={styles.button} onPress={handleContinuePress}>
+        <TouchableOpacity style={styles.button} onPress={() => login()}>
           <Text style={styles.buttonText}>Continue</Text>
         </TouchableOpacity>
 
