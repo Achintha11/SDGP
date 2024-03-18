@@ -6,6 +6,9 @@ import TaskModel from "../Components/TaskModal";
 import axios from "axios";
 import { COLORS } from "../../assets/constants/constant";
 import { apiUrl } from "../../assets/constants/constant";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 const TaskPage = () => {
   const [searchText, setSearchText] = useState("");
 
@@ -23,10 +26,15 @@ const TaskPage = () => {
     setModalVisible(true);
   };
 
+
+
+
   useEffect(() => {
-    function fetchData() {
-      axios
-        .get(apiUrl.get)
+    async function fetchData() {
+      const userData = await AsyncStorage.getItem("userData");
+      const parsedUserData = JSON.parse(userData);
+      const uid = parsedUserData.uid;
+      axios.get(apiUrl.get + uid)
         .then((response) => {
           setTask(response.data.tasks);
         })
@@ -42,7 +50,7 @@ const TaskPage = () => {
     try {
       const response = await axios.delete(url + id);
       if (response.status === 200) {
-       setIsDeleteModalVisible(true);
+        setIsDeleteModalVisible(true);
         setRefreshPage(!refreshPage);
 
       } else {
