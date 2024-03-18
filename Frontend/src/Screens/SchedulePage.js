@@ -33,6 +33,8 @@ export default function ScheduleScreen2() {
     }, 0);
   };
 
+
+  
   return (
     <SafeAreaView style={{ flex: 1 }}>
     <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.third}/>
@@ -160,7 +162,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center'
   },
-  itemRow: {
+  itemRow: {  
     width: width,
     flexDirection: 'row',
     alignItems: 'flex-start',
@@ -176,7 +178,7 @@ const styles = StyleSheet.create({
   itemDate: {
     fontSize: 15,
     fontWeight: '600',
-    color: '#111',
+    color: '#111',  
   },
   /** Placeholder */
   placeholder: {

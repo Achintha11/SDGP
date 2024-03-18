@@ -3,20 +3,30 @@ const { addNewMainTask } = require("../services/taskService");
 const moment = require("moment");
 
 const getAllTasks = async (req, res) => {
+  const userId = req.params.userId;
+
   try {
-    const tasks = await Task.find({});
+    const {id:uid} =req.params
+
+    const tasks = await Task.find({ uid : uid});
     res.status(200).json({ tasks });
   } catch (error) {
     res.status(500).json({ msg: error });
   }
 };
 
+
+
 const createTask = async (req, res) => {
   try {
     const taskDetails = req.body
-    const {Title , startDate , dueDate , workHours} = taskDetails
+   // const {Title , startDate , dueDate , workHours , color , uid} = taskDetails
+
+
+
+
     
-    addNewMainTask(Title, workHours, startDate, dueDate);
+    //addNewMainTask(Title, workHours, startDate, dueDate , color , uid);
 
     const task = await Task.create(req.body);
     res.status(201).json({ task });
@@ -24,6 +34,9 @@ const createTask = async (req, res) => {
     res.status(500).json({ msg: error });
   }
 };
+
+
+
 
 
 const getTask =async (req,res)=>{

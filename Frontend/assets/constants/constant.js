@@ -16,5 +16,6 @@ export const COLORS = {
 
 
 export const  apiUrl = {
-  get : 'http://10.31.1.77:8080/api/v1/tasks/',
+  get : 'http://192.168.1.5:8080/api/v1/tasks/',
+  getSubTasks : 'http://192.168.1.5:8080/api/v1/subtasks/',
 }

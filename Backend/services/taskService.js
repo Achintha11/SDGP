@@ -146,11 +146,11 @@ async function convertUtc(scheduleData) {
 
   
   
-  function calculateSubtaskStartTime(dayStart, filteredSchedule , subtaskDuration , existingSubtasks) {
+  async function calculateSubtaskStartTime(dayStart, filteredSchedule , subtaskDuration , existingSubtasks) {
     // Find the first available time slot within the day schedule and subtask duration
     for (let startTime = moment(dayStart).clone(); startTime.isBefore(dayStart.endOf('day')); startTime.add(30, 'minutes')) {
       // Check if the current time slot is available:
-      if (isTimeSlotAvailable(startTime, filteredSchedule, subtaskDuration , dayStart , existingSubtasks)) {
+     if (await isTimeSlotAvailable(startTime, filteredSchedule, subtaskDuration , dayStart , existingSubtasks)) {
         return startTime; // Found an available slot, return start time
       }
     }
@@ -165,45 +165,44 @@ async function convertUtc(scheduleData) {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-  
-  function isTimeSlotAvailable(startTime, filteredSchedule, subtaskDuration, dayStart ,existingSubtasks ) {
-    // Check for conflicts with existing subtasks and schedule constraints:
-    const endTime = moment(startTime).add(subtaskDuration, 'minutes');
-  
-    // Prioritize sleep: Prevent overlap with sleep time (no grace period)
-    for (const scheduleEntry of filteredSchedule) {
-      if (moment(startTime).isBefore(scheduleEntry.sleepEnd) && moment(endTime).isAfter(scheduleEntry.sleepStart)) {
-        return false; // Conflict with sleep time, not available
-      }
-    }
-  
-    // Check for overlaps with work times: Allow a small buffer period (adjust gracePeriod as needed)
-    const gracePeriod = 15; // Adjust grace period duration (in minutes)
-  
-    for (const scheduleEntry of filteredSchedule) {
-      const workStartGrace = moment(scheduleEntry.workStart).subtract(gracePeriod, 'minutes');
-      const workEndGrace = moment(scheduleEntry.workEnd).add(gracePeriod, 'minutes');
-  
-      if (moment(startTime).isBefore(workEndGrace) && moment(endTime).isAfter(workStartGrace) ||
-          (startTime.isBefore(workStartGrace) && endTime.isAfter(workEndGrace))) {
-        return false; // Conflict with work time with buffer zone, not available
-      }
-    }
-  
-    // Check for overlaps with existing subtasks:
-    for (const subtask of existingSubtasks.filter(t => moment(t.date).isSame(dayStart))) {
-      if (moment(subtask.startTime).isBetween(startTime, endTime) ||
-          moment(subtask.endTime).isBetween(startTime, endTime) ||
-          (startTime.isBefore(subtask.startTime) && endTime.isAfter(subtask.endTime))) {
-        return false; // Conflict with existing subtask, not available
-      }
-    }
-  
-    // No conflicts found, the time slot is available
-    return true;
+async function isTimeSlotAvailable(startTime, filteredSchedule, subtaskDuration, dayStart, existingSubtasks) {
+  const endTime = moment(startTime).add(subtaskDuration, 'minutes');
+
+  // Check for conflicts with sleep time
+  const sleepConflict =filteredSchedule.some(scheduleEntry => {
+      return startTime.isBefore(scheduleEntry.sleepEnd) && endTime.isAfter(scheduleEntry.sleepStart);
+  });
+
+  if (sleepConflict) {
+      return false; // Conflict with sleep time, not available
   }
 
+  // Check for conflicts with work times
+  const workConflict = filteredSchedule.some(scheduleEntry => {
+      const gracePeriod = 15; // Adjust grace period duration (in minutes)
+      const workStartGrace = moment(scheduleEntry.workStart).subtract(gracePeriod, 'minutes');
+      const workEndGrace = moment(scheduleEntry.workEnd).add(gracePeriod, 'minutes');
 
+      return (startTime.isBefore(workEndGrace) && endTime.isAfter(workStartGrace)) ||
+             (startTime.isBefore(workStartGrace) && endTime.isAfter(workEndGrace));
+  });
+
+  if (workConflict) {
+      return false; // Conflict with work time, not available
+  }
+
+  // Check for conflicts with existing subtasks
+  const subtaskConflict = await  existingSubtasks.some(subtask => {
+      return (startTime.isSameOrBefore(subtask.endTime) && endTime.isSameOrAfter(subtask.startTime)) ||
+             (startTime.isSameOrAfter(subtask.startTime) && endTime.isSameOrBefore(subtask.endTime));
+  });
+
+  if (subtaskConflict) {
+      return false; // Conflict with existing subtask, not available
+  }
+
+  return true; // No conflicts found, the time slot is available
+}
 
 
 
@@ -216,7 +215,7 @@ async function convertUtc(scheduleData) {
   
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   
-  async function addNewMainTask(taskName, expectedHours,startDate, dueDate ) {
+  async function addNewMainTask(taskName, expectedHours,startDate, dueDate , color , uid ) {
 
     const formattedDueDate = moment(dueDate);
     const formattedStartDate = moment(startDate);
@@ -226,19 +225,47 @@ async function convertUtc(scheduleData) {
 
 
     const scheduleData = await getScheduleDataFromDB();
+
+
+    
+
+// Example schedule data structure (replace with your actual data)
+const formattedScheduleData = [
+  {
+    date: moment('2024-03-17'), // Monday
+    sleepStart: moment('2024-03-17').hour(0).minute(0),
+    sleepEnd: moment('2024-03-17').hour(6).minute(0),
+    workStart: moment('2024-03-17').hour(8).minute(0),
+    workEnd: moment('2024-03-17').hour(17).minute(0),
+  },
+  {
+    date: moment('2024-03-18'), // Tuesday
+    sleepStart: moment('2024-03-18').hour(0).minute(0),
+    sleepEnd: moment('2024-03-18').hour(6).minute(0),
+    workStart: moment('2024-03-18').hour(8).minute(0),
+    workEnd: moment('2024-03-18').hour(17).minute(0),
+  },
+  {
+    date: moment('2024-03-19'), // Wednesday
+    sleepStart: moment('2024-03-19').hour(0).minute(0),
+    sleepEnd: moment('2024-03-19').hour(6).minute(0),
+    workStart: moment('2024-03-19').hour(8).minute(0),
+    workEnd: moment('2024-03-19').hour(17).minute(0),
+  },
+];
   
-    const formattedScheduleData = scheduleData.map((e)=>{
-      return {
-        _id : e._id,
-        date : moment(e.date),
-        sleepStart : moment(e.sleepStart),
-        sleepEnd : moment(e.sleepEnd),
-        workStart : moment(e.workStart),
-        workEnd : moment(e.workEnd),
+    // const formattedScheduleData = scheduleData.map((e)=>{
+    //   return {
+    //     _id : e._id,
+    //     date : moment(e.date),
+    //     sleepStart : moment(e.sleepStart),
+    //     sleepEnd : moment(e.sleepEnd),
+    //     workStart : moment(e.workStart),
+    //     workEnd : moment(e.workEnd),
         
 
-      }
-    })
+    //   }
+    // })
     console.log('==========================================');
 
 
@@ -289,7 +316,7 @@ async function convertUtc(scheduleData) {
         
         // Create subtask with adjusted start and end times based on daily schedule
         const filteredSchedule = formattedScheduleData.filter(s => moment(s.date).isSameOrBefore(dayEnd));
-        let subtaskStartTime = calculateSubtaskStartTime(dayStart, filteredSchedule , subtaskDuration , formattedExisitingSubtasks);
+        let subtaskStartTime =await calculateSubtaskStartTime(dayStart, filteredSchedule , subtaskDuration , formattedExisitingSubtasks);
         let subtaskEndTime = moment(subtaskStartTime).add(subtaskDuration, 'minutes');
   
 
@@ -312,18 +339,17 @@ async function convertUtc(scheduleData) {
   
          const subtaskData = {
             name: `${taskName} - Subtask ${i + 1}`,
+            uid : uid,
             date: dayStart,
             startTime: subtaskStartTime,
             endTime: subtaskEndTime,
             duration: subtaskDuration,
-            type: 'subtask'
+            type: 'subtask',
+            color : color
         };
 
         console.log(subtaskData);
-
-
-                        {/*
-
+        
         Subtask.create(subtaskData)
                 .then(subtask => {
                     console.log(`Subtask '${subtask.name}' created and saved.`);
@@ -333,7 +359,7 @@ async function convertUtc(scheduleData) {
                 });
 
 
-*/}
+
 
 
 
