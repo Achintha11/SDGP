@@ -16,7 +16,8 @@ import Carousel from "react-native-snap-carousel";
 import { useState } from "react";
 import * as Progress from "react-native-progress";
 import { COLORS } from "../../assets/constants/constant";
-import LottieView from 'lottie-react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useEffect } from "react";
 
 
 const progress = 0.4;
@@ -67,6 +68,30 @@ const App = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [carouselItems, setCarouselItems] = useState([]);
 
+  const [userData , setUserData] = useState(null)
+  const getUserData = async () => {
+    try {
+      const userData = await AsyncStorage.getItem('userData');
+      if (userData !== null) {
+        return JSON.parse(userData);
+      } else {
+        return null; // Indicate no user data stored
+      }
+    } catch (error) {
+      console.error('Error retrieving user data:', error);
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getUserData();
+      setUserData(data);
+    };
+
+     fetchData();
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={COLORS.third} barStyle={'dark-content'}/>
@@ -104,7 +129,11 @@ const App = () => {
                     Today!
                   </Text>
                   <Text style={styles.mcardtext2}>Hello,</Text>
-                  <Text style={styles.mcardtext3}>Sanindu!</Text>
+                  {userData ? (
+                    <Text style={styles.mcardtext3}>{userData.email}</Text>
+                  ) : (
+                    <Text style={styles.mcardtext3}>Guest User</Text>
+                  )}                  
                   <Text style={styles.mcardtext4}>Have a nice day!</Text>
                 </View>
               </ImageBackground>

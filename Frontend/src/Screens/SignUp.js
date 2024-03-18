@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Text, View, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, StatusBar } from 'react-native';
 import { Feather, FontAwesome } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook
 import { COLORS } from '../../assets/constants/constant'
 import { getAuth, createUserWithEmailAndPassword, getReactNativePersistence, sendEmailVerification } from "firebase/auth";
 import auth from '../../firebaseConfig';
@@ -13,6 +14,7 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
+  const navigation = useNavigation(); // Initialize navigation object
 
   const handleForgotPress = () => {
     console.log('Forgot Password pressed!');
@@ -21,6 +23,13 @@ const SignUp = () => {
   const handleSignUpPress = () => {
     console.log('Sign Up pressed!');
   };
+
+  const handleSignInPress = () => {
+    navigation.navigate('SignInScreen');
+  };
+
+
+
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -124,7 +133,7 @@ const SignUp = () => {
 
         <View style={styles.haveAccountView}>
           <Text style={styles.haveAccountText}>Have an account?</Text>
-          <TouchableOpacity onPress={handleSignUpPress}>
+          <TouchableOpacity onPress={handleSignInPress}>
             <Text style={styles.loginText}> Log in</Text>
           </TouchableOpacity>
         </View>
@@ -137,7 +146,7 @@ const SignUp = () => {
 const styles = StyleSheet.create({
 
   CreateText: {
-    fontSize: 45,
+    fontSize: 40,
     fontWeight: 'bold',
     marginTop: '12%',
     marginLeft: '5%'
