@@ -5,6 +5,8 @@ import { FontAwesome } from '@expo/vector-icons';
 import { COLORS } from '../../assets/constants/constant';
 import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook
 import auth from '../../firebaseConfig';
+import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getAuth, createUserWithEmailAndPassword, getReactNativePersistence, signInWithEmailAndPassword } from "firebase/auth";
 
 
@@ -15,6 +17,14 @@ const WelcomePage = () => {
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
   const [password, setPassword] = useState("");
+
+  const storeUserData = async (user) => {
+    try {
+      await AsyncStorage.setItem('userData', JSON.stringify(user));
+    } catch (error) {
+      console.error('Error storing user data:', error);
+    }
+  };
 
   const handleForgotPress = () => {
     console.log('Forgot Password pressed!');
@@ -44,12 +54,37 @@ const WelcomePage = () => {
 
   }
 
+  const sendToken = async (token, user) => {
+    try {
+      const response = await axios.get('http://192.168.42.117:8080/protected-resource', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status === 200) { // Handle successful response
+        console.log('User successfully authenticated!');
+        storeUserData(user);
+
+        navigation.navigate('MainTab')
+        // Set a flag or store relevant data to indicate successful login
+        // (Avoid directly logging the token or user ID)
+      } else {
+        console.error('Error:', response.data);
+      }
+    } catch (error) {
+      console.error('Error sending token:', error);
+    }
+  };
+
   const login = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
         // Signed in
         const user = userCredential.user;
-        console.log(user)
+        const token = await user.getIdToken();
+        console.log(token);
+        sendToken(token, user)
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -107,7 +142,7 @@ const WelcomePage = () => {
               name={passwordVisible ? 'eye-off' : 'eye'}
               size={20}
               color={COLORS.sixth}
-              style={{ marginRight: '3%', marginLeft: '5%'}}
+              style={{ marginRight: '3%', marginLeft: '5%' }}
             />
           </TouchableWithoutFeedback>
         </View>
