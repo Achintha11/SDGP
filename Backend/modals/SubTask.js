@@ -6,7 +6,11 @@ const SubtaskSchema = new mongoose.Schema({
   startTime: Date,
   endTime: Date,
   duration: Number,
-  type: String
+  type: String,
+  uid : String,
+  color : String
 });
+
+
 
 module.exports = mongoose.model("Subtask", SubtaskSchema);

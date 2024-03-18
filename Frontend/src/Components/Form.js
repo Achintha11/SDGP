@@ -1,7 +1,6 @@
 import React from "react";
-import { View, Text, TextInput, picker, Button } from "react-native";
+import { View, Text, TextInput, picker, Button, LogBox } from "react-native";
 import { StyleSheet } from "react-native";
-import { ScrollView } from "react-native";
 import { TouchableOpacity } from "react-native";
 
 import { COLORS } from "../../assets/constants/constant";
@@ -17,6 +16,16 @@ import axios from "axios";
 
 import { apiUrl } from "../../assets/constants/constant";
 import { useNavigation } from '@react-navigation/native';
+import { useEffect } from "react";
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ScrollView } from "react-native-gesture-handler";
+
+import ColorPicker, {
+  Swatches,
+} from "reanimated-color-picker";
+
+
 
 const Form = () => {
   const navigation = useNavigation(); 
@@ -34,9 +43,15 @@ const Form = () => {
   const [dueDateshow, setdueDateShow] = useState(false);
 
   const [errors, setErrors] = useState({});
+  const [color, setColor] = useState("");
+
 
   const formattedStartDate = startDate.toISOString().split("T")[0];
   const formattedDueDate = dueDate.toISOString().split("T")[0];
+
+
+
+
 
   const onChangeStartDate = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -74,9 +89,17 @@ const Form = () => {
     return Object.keys(errors).length === 0;
   };
 
+  
+
   const handleSubmit = async () => {
+
+    const userData =  await AsyncStorage.getItem('userData'); 
+    const parsedUserData = JSON.parse(userData);
+    const uid = parsedUserData.uid
+
     if (validateForm()) {
       let formData = {
+        uid :uid,
         Title: Title,
         startDate: startDate,
         dueDate: dueDate,
@@ -84,6 +107,7 @@ const Form = () => {
         taskType: selectedTaskType,
         priorityLevel: selectedPriorityLevel,
         description: description,
+        color : color
       };
 
 
@@ -96,6 +120,18 @@ const Form = () => {
       }
     }
   };
+
+
+  const onSelectColor = ({ hex }) => {
+    // do something with the selected color.
+    setColor(hex);
+  };
+
+
+  console.log(color);
+
+  const swatchesColors = ["#F58A07", "#1d728a", "#161d82", "#114717", "#473411", "#c9100a" , "#20c90a" , "#b31084" , "#14c3c9" , "#7c0bb5"];
+
 
   return (
     <View>
@@ -227,6 +263,7 @@ const Form = () => {
             ) : null}
           </View>
 
+
           <View style={{ marginBottom: 10 }}>
             <Text style={styles.formText}>Description</Text>
             <ScrollView>
@@ -240,6 +277,50 @@ const Form = () => {
               />
             </ScrollView>
           </View>
+
+
+
+
+
+
+          
+          <View style={{ height: "8%", width: "100%", flexDirection: "row" , justifyContent : 'flex-start' }}>
+            <View style ={{justifyContent : 'center'}}>
+              <Text style={styles.formText}> Select a Color</Text>
+            </View>
+            <View style={[styles.colorIndicator, { backgroundColor: color }]} />
+          </View>
+
+          <View
+            style={{
+              flex: 1,
+              marginBottom: 20,
+              alignItems : 'center'
+            }}
+          >
+            <ColorPicker
+              style={{ width: "90%", alignItems: "center", height: "40%" , marginTop : 10  }}
+              value="red"
+              onComplete={onSelectColor}
+            >
+              <Swatches  swatchStyle={{height : 20  , width : 40,borderRadius : 5 , }} colors={swatchesColors} />
+            </ColorPicker>
+          </View>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         </ScrollView>
       </View>
 
@@ -253,6 +334,16 @@ const Form = () => {
 };
 
 const styles = StyleSheet.create({
+
+  colorIndicator: {
+    marginLeft : 20,
+    width: 50,
+    height: 50,
+    borderRadius : 25,
+    alignSelf: "center",
+  },
+
+
   form: {
     height: "80%",
     padding: "1%",

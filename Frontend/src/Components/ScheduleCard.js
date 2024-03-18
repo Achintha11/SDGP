@@ -3,6 +3,8 @@ import { TouchableOpacity, Platform, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native"; // Import the navigation hook
 
 const ScheduleCard = ({ style, item }) => {
+
+  console.log(item);
   const navigation = useNavigation(); // Initialize the navigation hook
 
   const handleScheduleCardPress = () => {
@@ -18,6 +20,8 @@ const ScheduleCard = ({ style, item }) => {
     });
   };
   return (
+
+    
     <TouchableOpacity
       onPress={handleScheduleCardPress}
       style={{
@@ -40,11 +44,10 @@ const ScheduleCard = ({ style, item }) => {
       }}
     >
       <Text style={{ color: "white", fontWeight: "bold", fontSize: 15 , marginBottom : 5 }}>
-        {item.title}
+        {item.name}
       </Text>
 
       <Text style={{ color: "white", fontSize: 12 }}>
-        {item.subTitle}
       </Text>
     </TouchableOpacity>
   );
