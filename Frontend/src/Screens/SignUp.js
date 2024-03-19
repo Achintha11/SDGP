@@ -3,7 +3,7 @@ import { Text, View, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, Stat
 import { Feather, FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook
 import { COLORS } from '../../assets/constants/constant'
-import { getAuth, createUserWithEmailAndPassword, getReactNativePersistence, sendEmailVerification } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, getReactNativePersistence, sendEmailVerification, updateProfile } from "firebase/auth";
 import auth from '../../firebaseConfig';
 
 
@@ -13,6 +13,7 @@ const SignUp = () => {
   const [passwordVisible, setPasswordVisible] = useState(true);
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [userName , setUserName] = useState("")
 
   const navigation = useNavigation(); // Initialize navigation object
 
@@ -35,25 +36,35 @@ const SignUp = () => {
     setPasswordVisible(!passwordVisible);
   };
 
-
   const createUser = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user)
-        sendEmailVerification(user);
+        
+        // Set the display name
+        updateProfile(user, {
+          displayName: userName
+        }).then(() => {
+          // Email verification
+          sendEmailVerification(user)
+            .then(() => {
+              console.log("Email verification sent.");
+              console.log(user);
 
+            })
+            .catch((error) => {
+              console.error("Error sending email verification:", error);
+            });
+        }).catch((error) => {
+          console.error("Error updating profile:", error);
+        });
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.error(errorCode, errorMessage);
-
       });
   };
-  
-
- 
   
   
 
@@ -69,8 +80,10 @@ const SignUp = () => {
           <Feather name="user" size={20} color={COLORS.fourth} />
           <TextInput
             style={{ fontSize: 18, marginLeft: '3%' }}
-            placeholder='User Name'
+            placeholder="User's Name"
             placeholderTextColor={COLORS.fourth}
+            value={userName}
+            onChangeText={setUserName}
           />
         </View>
 

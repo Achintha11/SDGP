@@ -130,7 +130,7 @@ const App = () => {
                   </Text>
                   <Text style={styles.mcardtext2}>Hello,</Text>
                   {userData ? (
-                    <Text style={styles.mcardtext3}>{userData.email}</Text>
+                    <Text style={styles.mcardtext3}>{userData.displayName}</Text>
                   ) : (
                     <Text style={styles.mcardtext3}>Guest User</Text>
                   )}                  
