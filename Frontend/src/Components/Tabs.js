@@ -9,17 +9,29 @@ import SignUp from "../Screens/SignUp";
 import Welcome from "../Screens/WelcomePage";
 import StartPage from "../Screens/StartPage";
 import TaskSuccess from "../Screens/TaskSuccess";
-import ScheduleProgress from "../Screens/ScheduleProgress"
+import ScheduleProgress from "../Screens/ScheduleProgress";
+import UserDisplayName from "../Screens/UserDisplayName";
+import ProPicUpload from "../Screens/ProPicUpload";
 
 const Stack = createStackNavigator();
 
 const Tabs = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="StartPage">
-        <Stack.Screen
+      <Stack.Navigator initialRouteName="startPage">
+
+      <Stack.Screen
           name="StartPage"
           component={StartPage}
+          options={{ headerShown: false }}
+        />
+
+        
+
+
+        <Stack.Screen
+          name="proPicUpload"
+          component={ProPicUpload}
           options={{ headerShown: false }}
         />
         <Stack.Screen
