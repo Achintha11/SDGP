@@ -230,43 +230,43 @@ async function isTimeSlotAvailable(startTime, filteredSchedule, subtaskDuration,
     
 
 // Example schedule data structure (replace with your actual data)
-const formattedScheduleData = [
-  {
-    date: moment('2024-03-17'), // Monday
-    sleepStart: moment('2024-03-17').hour(0).minute(0),
-    sleepEnd: moment('2024-03-17').hour(6).minute(0),
-    workStart: moment('2024-03-17').hour(8).minute(0),
-    workEnd: moment('2024-03-17').hour(17).minute(0),
-  },
-  {
-    date: moment('2024-03-18'), // Tuesday
-    sleepStart: moment('2024-03-18').hour(0).minute(0),
-    sleepEnd: moment('2024-03-18').hour(6).minute(0),
-    workStart: moment('2024-03-18').hour(8).minute(0),
-    workEnd: moment('2024-03-18').hour(17).minute(0),
-  },
-  {
-    date: moment('2024-03-19'), // Wednesday
-    sleepStart: moment('2024-03-19').hour(0).minute(0),
-    sleepEnd: moment('2024-03-19').hour(6).minute(0),
-    workStart: moment('2024-03-19').hour(8).minute(0),
-    workEnd: moment('2024-03-19').hour(17).minute(0),
-  },
-];
+// const formattedScheduleData = [
+//   {
+//     date: moment('2024-03-17'), // Monday
+//     sleepStart: moment('2024-03-17').hour(0).minute(0),
+//     sleepEnd: moment('2024-03-17').hour(6).minute(0),
+//     workStart: moment('2024-03-17').hour(8).minute(0),
+//     workEnd: moment('2024-03-17').hour(17).minute(0),
+//   },
+//   {
+//     date: moment('2024-03-18'), // Tuesday
+//     sleepStart: moment('2024-03-18').hour(0).minute(0),
+//     sleepEnd: moment('2024-03-18').hour(6).minute(0),
+//     workStart: moment('2024-03-18').hour(8).minute(0),
+//     workEnd: moment('2024-03-18').hour(17).minute(0),
+//   },
+//   {
+//     date: moment('2024-03-19'), // Wednesday
+//     sleepStart: moment('2024-03-19').hour(0).minute(0),
+//     sleepEnd: moment('2024-03-19').hour(6).minute(0),
+//     workStart: moment('2024-03-19').hour(8).minute(0),
+//     workEnd: moment('2024-03-19').hour(17).minute(0),
+//   },
+// ];
   
-    // const formattedScheduleData = scheduleData.map((e)=>{
-    //   return {
-    //     _id : e._id,
-    //     date : moment(e.date),
-    //     sleepStart : moment(e.sleepStart),
-    //     sleepEnd : moment(e.sleepEnd),
-    //     workStart : moment(e.workStart),
-    //     workEnd : moment(e.workEnd),
+    const formattedScheduleData = scheduleData.map((e)=>{
+      return {
+        _id : e._id,
+        date : moment(e.date),
+        sleepStart : moment(e.sleepStart),
+        sleepEnd : moment(e.sleepEnd),
+        workStart : moment(e.workStart),
+        workEnd : moment(e.workEnd),
         
 
-    //   }
-    // })
-    console.log('==========================================');
+      }
+    })
+    console.log('==========================================Shedule data from db : ', formattedScheduleData);
 
 
     const existingSubtasksDB = await getExistingSubtasksFromDB();
