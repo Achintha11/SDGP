@@ -44,6 +44,7 @@
     "react-dom": "18.2.0",
     "react-native": "0.73.4",
     "react-native-calendar-timetable": "^1.0.6",
+    "react-native-calendars": "^1.1304.1",
     "react-native-curved-bottom-bar": "^3.2.6",
     "react-native-gesture-handler": "~2.14.0",
     "react-native-gifted-charts": "^1.4.7",
