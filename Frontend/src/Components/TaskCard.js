@@ -17,9 +17,9 @@ const TaskCard = ({ task , onTaskCardPress }) => {
     setStarColor(starColor === COLORS.sixth ? COLORS.seventh : COLORS.sixth);
   };
 
-  const startDate = new Date(task.startDate);
+  const dueDate = new Date(task.dueDate);
 
-  const formattedStartDate = moment(startDate).format("YYYY  MMM  DD");
+  const formattedDueDate = moment(dueDate).format("YYYY  MMM  DD");
 
   return (
     <Shadow
@@ -58,7 +58,7 @@ const TaskCard = ({ task , onTaskCardPress }) => {
           }}
         >
           <View style={styles.labelContainer}>
-            <Text style={styles.labelText}>{formattedStartDate}</Text>
+            <Text style={styles.labelText}>{formattedDueDate}</Text>
           </View>
 
           <TouchableOpacity onPress={handleStarPress}>

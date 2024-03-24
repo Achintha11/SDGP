@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, FlatList, StatusBar, SafeAreaView } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+  StatusBar,
+  SafeAreaView,
+} from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import TaskCard from "../Components/TaskCard";
 import TaskModel from "../Components/TaskModal";
 import axios from "axios";
 import { COLORS } from "../../assets/constants/constant";
 import { apiUrl } from "../../assets/constants/constant";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const TaskPage = () => {
   const [searchText, setSearchText] = useState("");
@@ -18,23 +26,19 @@ const TaskPage = () => {
   const [refreshPage, setRefreshPage] = useState(false); // Add state to trigger page refresh
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
 
-
-
-
   const openModal = (task) => {
     setSelectedTask(task);
     setModalVisible(true);
   };
 
-
-
-
   useEffect(() => {
     async function fetchData() {
+      
       const userData = await AsyncStorage.getItem("userData");
       const parsedUserData = JSON.parse(userData);
       const uid = parsedUserData.uid;
-      axios.get(apiUrl.get + uid)
+      axios
+        .get(apiUrl.get + uid)
         .then((response) => {
           setTask(response.data.tasks);
         })
@@ -45,14 +49,12 @@ const TaskPage = () => {
     fetchData();
   }, [refreshPage]);
 
-
   const handleDeleteConfirmation = async ({ id, url }) => {
     try {
       const response = await axios.delete(url + id);
       if (response.status === 200) {
         setIsDeleteModalVisible(true);
         setRefreshPage(!refreshPage);
-
       } else {
         throw new Error(
           `Delete Request failed with status code ${response.status} `
@@ -90,16 +92,23 @@ const TaskPage = () => {
 
       <View style={[styles.halfContainer, styles.whiteBackground]}>
         <View style={styles.innerGreyBackground}>
-          <FlatList
-            style={{ width: '95%', height: '110%' }}
+          {tasks.length < 0 ? (
+            <Text style ={{fontSize : 18, color : 'gray', marginVertical : '60%' , fontWeight : 'bold'}}>No Added Tasks </Text>
+          ) : (
+            <FlatList
+              style={{ width: "95%", height: "110%" }}
+              contentContainerStyle={{ alignItems: "center" }}
+              showsVerticalScrollIndicator={false}
+              data={tasks}
+              renderItem={({ item }) => (
+                <TaskCard task={item} onTaskCardPress={openModal} />
+              )}
+              keyExtractor={(item) => item._id}
+            />
+          )}
 
-            contentContainerStyle={{ alignItems: 'center' }}
-            showsVerticalScrollIndicator={false}
-            data={tasks}
-            renderItem={({ item }) => <TaskCard task={item} onTaskCardPress={openModal} />}
-            keyExtractor={(item) => item._id}
-          />
 
+  
           <TaskModel
             modalVisible={modalVisible}
             setModalVisible={setModalVisible}
@@ -115,10 +124,9 @@ const TaskPage = () => {
 };
 
 const styles = StyleSheet.create({
-
   container: {
     flex: 1,
-    flexDirection: 'column',
+    flexDirection: "column",
     backgroundColor: COLORS.primary,
   },
   halfContainer: {
@@ -135,7 +143,7 @@ const styles = StyleSheet.create({
     flex: 1,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    alignItems: 'center'
+    alignItems: "center",
   },
   innerGreyBackground: {
     backgroundColor: COLORS.third,
@@ -152,30 +160,29 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "700",
     color: "white",
-    marginTop: '5%'
+    marginTop: "5%",
   },
   searchBarContainer: {
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: '10%',
+    marginBottom: "10%",
     position: "relative",
   },
   searchInput: {
     backgroundColor: "white",
-    width: '85%',
-    height: '40%',
+    width: "85%",
+    height: "40%",
     borderRadius: 20,
-    paddingLeft: '5%',
+    paddingLeft: "5%",
     fontSize: 18,
   },
 
   searchIconContainer: {
     position: "absolute",
-    right: '5%',
+    right: "5%",
   },
   searchIcon: {},
-
 });
 
 export default TaskPage;

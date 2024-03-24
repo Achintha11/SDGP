@@ -8,7 +8,8 @@ const SubtaskSchema = new mongoose.Schema({
   duration: Number,
   type: String,
   uid : String,
-  color : String
+  color : String,
+  mainTaskId : String
 });
 
 

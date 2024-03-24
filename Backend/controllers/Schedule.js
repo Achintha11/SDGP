@@ -33,5 +33,52 @@ const addSchedule = async (req, res) => {
   }
   };
 
+  
+  const checkSchedule = async (req, res) => {
+    try {
+      const { startDate, endDate } = req.body;
+      const { id: uid } = req.params;
 
-  module.exports={addSchedule};
+      console.log("params u id",uid);
+
+      console.log("this is my req body",req.body);
+  
+      // Convert start and end dates to Date objects
+      const formattedStartDate = new Date(startDate);
+      const formattedEndDate = new Date(endDate);
+      console.log(formattedStartDate);
+      console.log(formattedEndDate);
+  
+      // Iterate over each date between startDate and endDate
+      let currentDate = new Date(formattedStartDate);
+      while (currentDate <= formattedEndDate) {
+        // Check if there is data for the current date
+        const currentDateOnly = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+
+        const existingData = await ScheduleData.findOne({ date: { $gte: currentDateOnly, $lt: new Date(currentDateOnly.getTime() + 24 * 60 * 60 * 1000) }, uid: uid });
+
+  
+        // If data doesn't exist for any date, return false
+        if (!existingData) {
+          return res.json({ exists: false });
+        }
+  
+        // Move to the next day
+        currentDate.setDate(currentDate.getDate() + 1);
+      }
+  
+      // If data exists for all dates, return true
+      res.json({ exists: true });
+    } catch (error) {
+      console.error('Error checking schedule data:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  };
+  
+  
+
+
+
+
+
+  module.exports={addSchedule , checkSchedule};

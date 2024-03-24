@@ -15,7 +15,11 @@ export const COLORS = {
 };
 
 
+
 export const  apiUrl = {
-  get : 'http://192.168.1.5:8080/api/v1/tasks/',
-  getSubTasks : 'http://192.168.1.5:8080/api/v1/subtasks/',
+  get : 'http://192.168.8.146:8080/api/v1/tasks/',
+  getSubTasks : 'http://192.168.8.146:8080/api/v1/subtasks/',
+  checkSchedule : 'http://192.168.8.146:8080/api/v1/scheduleData/check-schedule/',
+  addSchedule : 'http://192.168.8.146:8080/api/v1/scheduleData/'
 }
+
