@@ -56,7 +56,7 @@ const WelcomePage = () => {
 
   const sendToken = async (token, user) => {
     try {
-      const response = await axios.get('http://192.168.42.117:8080/protected-resource', {
+      const response = await axios.get('http://192.168.8.146:8080/protected-resource', {
         headers: {
           Authorization: `Bearer ${token}`,
         },

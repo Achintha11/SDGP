@@ -10,28 +10,30 @@ import Welcome from "../Screens/WelcomePage";
 import StartPage from "../Screens/StartPage";
 import TaskSuccess from "../Screens/TaskSuccess";
 import ScheduleProgress from "../Screens/ScheduleProgress";
-import UserDisplayName from "../Screens/UserDisplayName";
 import ProPicUpload from "../Screens/ProPicUpload";
+import MyCalendar from "../Screens/MyCalendar"
 
 const Stack = createStackNavigator();
 
 const Tabs = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="startPage">
-
-      <Stack.Screen
+      <Stack.Navigator initialRouteName="proPicUpload">
+        <Stack.Screen
           name="StartPage"
           component={StartPage}
           options={{ headerShown: false }}
         />
 
-        
-
-
         <Stack.Screen
           name="proPicUpload"
           component={ProPicUpload}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="calendar"
+          component={MyCalendar}
           options={{ headerShown: false }}
         />
         <Stack.Screen

@@ -29,9 +29,6 @@ const SignUp = () => {
     navigation.navigate('SignInScreen');
   };
 
-
-
-
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
@@ -136,13 +133,13 @@ const SignUp = () => {
         <View>
           <Text style={styles.orText}>Or</Text>
         </View>
-
+{/* 
         <TouchableOpacity onPress={() => console.log('Continue with Google pressed!')}>
           <View style={styles.continueGoogleView}>
             <FontAwesome name="google" size={20} style={{ marginRight: '3%' }} />
             <Text style={styles.continueGoogleText}>Continue with Google</Text>
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <View style={styles.haveAccountView}>
           <Text style={styles.haveAccountText}>Have an account?</Text>

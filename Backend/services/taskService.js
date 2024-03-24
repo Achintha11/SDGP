@@ -215,7 +215,7 @@ async function isTimeSlotAvailable(startTime, filteredSchedule, subtaskDuration,
   
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   
-  async function addNewMainTask(taskName, expectedHours,startDate, dueDate , color , uid ) {
+  async function addNewMainTask(taskName, expectedHours,startDate, dueDate , color , uid ,mainTaskId) {
 
     const formattedDueDate = moment(dueDate);
     const formattedStartDate = moment(startDate);
@@ -345,7 +345,8 @@ async function isTimeSlotAvailable(startTime, filteredSchedule, subtaskDuration,
             endTime: subtaskEndTime,
             duration: subtaskDuration,
             type: 'subtask',
-            color : color
+            color : color,
+            mainTaskId : mainTaskId
         };
 
         console.log(subtaskData);

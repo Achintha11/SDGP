@@ -3,7 +3,7 @@ const { getAllSubTasks } = require('../controllers/subtasks');
 const subTaskRouter = express.Router();
 
 
-subTaskRouter.route('/').get(getAllSubTasks)
+subTaskRouter.route('/:id').get(getAllSubTasks)
 
 module.exports  = subTaskRouter;
 

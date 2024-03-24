@@ -6,43 +6,37 @@ import { useWindowDimensions } from "react-native";
 
 import { View, Text } from "react-native"; // Import View and Text from react-native
 
-
 import { useState, useEffect } from "react";
 import ScheduleCard from "./ScheduleCard";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import "moment-timezone";
 
-
-function YourComponent({item}) {
+function YourComponent({ item }) {
   return (
-      <View style={{
-          ...style, // apply calculated styles, be careful not to override these accidentally (unless you know what you are doing)
-          backgroundColor: 'red',
-          borderRadius: 10,
-          elevation: 5,
-      }}>
-          <Text>{item.name}</Text>
-          <Text>2022</Text>
-      </View>
+    <View
+      style={{
+        ...style, // apply calculated styles, be careful not to override these accidentally (unless you know what you are doing)
+        backgroundColor: "red",
+        borderRadius: 10,
+        elevation: 5,
+      }}
+    >
+      <Text>{item.name}</Text>
+      <Text>2022</Text>
+    </View>
   );
 }
 
 const ScheduleScreen1 = ({ selectedDate }) => {
-
-  
-
   const [isDataFetched, setIsDataFetched] = useState(false);
-
-
 
   const [date] = useState(new Date());
 
   const { width } = useWindowDimensions();
   const [filteredItems, setFilteredItems] = useState([]);
 
-
-  const [items, setItems] = React.useState([])
+  const [items, setItems] = React.useState([]);
 
   //   {
   //     title: "OOP ",
@@ -76,99 +70,92 @@ const ScheduleScreen1 = ({ selectedDate }) => {
   //   },
   // ]);
 
-  
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get(apiUrl.getSubTasks);
-        const fetchedItems = response.data.subTasks.map(item => ({
+
+        const userData = await AsyncStorage.getItem("userData");
+        const parsedUserData = JSON.parse(userData);
+        const uid = parsedUserData.uid;
+
+        const response = await axios.get(apiUrl.getSubTasks + uid);
+        const fetchedItems = response.data.subTasks.map((item) => ({
           ...item,
           startDate: moment(item.startTime).toDate(), // Parse startTime using Moment.js
-          endDate: moment(item.endTime).toDate() // Parse endTime using Moment.js, assuming you have an endTime property
+          endDate: moment(item.endTime).toDate(), // Parse endTime using Moment.js, assuming you have an endTime property
         }));
         setItems(fetchedItems);
         setIsDataFetched(true);
-        
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     }
-  
+
     fetchData();
   }, [selectedDate]);
 
-
-  
   useEffect(() => {
     const filtered = items.filter((item) => {
-      
-      const startDateMoment = moment(item.startTime)
-      const selectedDateMoment = moment(selectedDate)
+      const startDateMoment = moment(item.startTime);
+      const selectedDateMoment = moment(selectedDate);
       console.log("====================================================");
 
-      console.log("startDateMoment " ,startDateMoment);
-      console.log("selected " , selectedDateMoment);
-      console.log(startDateMoment.isSame(selectedDateMoment, "day")
+      console.log("startDateMoment ", startDateMoment);
+      console.log("selected ", selectedDateMoment);
+      console.log(startDateMoment.isSame(selectedDateMoment, "day"));
+      console.log(
+        "=============================================================="
       );
-      console.log("==============================================================");
-     return startDateMoment.isSame(selectedDateMoment, "day"); 
-
+      return startDateMoment.isSame(selectedDateMoment, "day");
     });
 
-
     setFilteredItems(filtered);
-    
   }, [selectedDate]);
-
 
   console.log(filteredItems);
 
-
-    return (
-      isDataFetched && (
-        <Timetable
-          width={"60%"}
-          columnWidth={width}
-          items={filteredItems}
-          renderItem={(props) => <ScheduleCard {...props} />}
-          date={selectedDate}
-          scrollViewProps={{
-            horizontal: false,
-            showsVerticalScrollIndicator: false,
-          }}
-          style={{
-            container: {
-              borderRadius: 5,
-              backgroundColor: COLORS.third,
+  return (
+    isDataFetched && (
+      <Timetable
+        width={"60%"}
+        columnWidth={width}
+        items={filteredItems}
+        renderItem={(props) => <ScheduleCard {...props} />}
+        date={selectedDate}
+        scrollViewProps={{
+          horizontal: false,
+          showsVerticalScrollIndicator: false,
+        }}
+        style={{
+          container: {
+            borderRadius: 5,
+            backgroundColor: COLORS.third,
+          },
+          lines: {
+            opacity: 0.3,
+          },
+          nowLine: {
+            dot: {
+              backgroundColor: COLORS.primary,
+              width: 10,
+              height: 10,
             },
-            lines: {
-              opacity: 0.3,
+            line: {
+              backgroundColor: COLORS.primary,
+              height: 2,
             },
-            nowLine: {
-              dot: {
-                backgroundColor: COLORS.primary,
-                width: 10,
-                height: 10,
-              },
-              line: {
-                backgroundColor: COLORS.primary,
-                height: 2,
-              },
-            },
-            time: {
-              color: "gray",
-              fontWeight: "bold",
-            },
-            timeContainer: {
-              backgroundColor: COLORS.third,
-            },
-          }}
-        />
-      )
-    );
-  };
+          },
+          time: {
+            color: "gray",
+            fontWeight: "bold",
+          },
+          timeContainer: {
+            backgroundColor: COLORS.third,
+          },
+        }}
+      />
+    )
+  );
+};
 
 export default ScheduleScreen1;
-      
-      
-      

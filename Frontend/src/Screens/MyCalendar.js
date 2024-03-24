@@ -13,18 +13,9 @@ import moment from "moment"; // Import moment library
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { COLORS } from "../../assets/constants/constant";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import axios from "axios";
-
-
-
-
-
-
-
-
-
-
 
 const Calendar1 = () => {
   const [selectedStartDate, setSelectedStartDate] = useState(null);
@@ -38,8 +29,6 @@ const Calendar1 = () => {
   const [showSleepStartTimePicker, setShowSleepStartTimePicker] =
     useState(false);
   const [showSleepEndTimePicker, setShowSleepEndTimePicker] = useState(false);
-
-  
 
   const handleWorkStartTimeChange = (event, selected) => {
     if (selected) {
@@ -94,13 +83,42 @@ const Calendar1 = () => {
     }
   };
 
-  const handleSave = async ()  => {
+  const handleSleepTimeCorrection = (currentDay) => {
+    const startDate = moment(currentDay.date).startOf("day");
+    const endDate = moment(currentDay.date).endOf("day");
+  
+    // Check if sleep start is before the start of the day
+    if (currentDay.sleepStart.isBefore(startDate)) {
+      currentDay.sleepStart = startDate;
+    }
+  
+    // Check if sleep end is after the end of the day
+    if (currentDay.sleepEnd.isAfter(endDate)) {
+      currentDay.sleepEnd = endDate;
+    }
+  
+    // If the sleep end exceeds the current day, adjust the work start time for the next day
+    if (currentDay.sleepEnd.isAfter(moment(currentDay.date).endOf("day"))) {
+      const nextDay = moment(currentDay.date).add(1, "day").startOf("day");
+      currentDay.workStart = moment(nextDay)
+        .set("hour", workStartTime.getHours())
+        .set("minute", workStartTime.getMinutes());
+    }
+  };
+  
+
+  const handleSave = async () => {
     const formattedScheduleData = [];
-    const startDate = moment(selectedStartDate);
-    const endDate = moment(selectedEndDate || selectedStartDate);
+    let startDate = moment(selectedStartDate);
+    let endDate = moment(selectedEndDate || selectedStartDate);
+
+    const userData = await AsyncStorage.getItem("userData");
+    const parsedUserData = JSON.parse(userData);
+    const uid = parsedUserData.uid;
 
     while (endDate.isSameOrAfter(startDate)) {
-      formattedScheduleData.push({
+      const currentDay = {
+        uid: uid,
         date: moment(startDate),
         sleepStart: moment(startDate)
           .set("hour", sleepStartTime.getHours())
@@ -114,18 +132,25 @@ const Calendar1 = () => {
         workEnd: moment(startDate)
           .set("hour", workEndTime.getHours())
           .set("minute", workEndTime.getMinutes()),
-      });
-      startDate.add(1, "day");
-    }
+      };
 
+      // Call function to handle sleep time correction
+      handleSleepTimeCorrection(currentDay);
+
+      formattedScheduleData.push(currentDay);
+      startDate = startDate.add(1, "day");
+    }
 
     console.log(formattedScheduleData);
     try {
-        const response = await axios.post('http://10.31.1.77:8080/api/v1/scheduleData/', formattedScheduleData);
-        console.log('Schedule data sent successfully:', response.data);
-      } catch (error) {
-        console.error('Error sending schedule data:', error);
-      }
+      const response = await axios.post(
+        "http://192.168.8.146:8080/api/v1/scheduleData/",
+        formattedScheduleData
+      );
+      console.log("Schedule data sent successfully:", response.data);
+    } catch (error) {
+      console.error("Error sending schedule data:", error);
+    }
   };
 
   const calendarTheme = {
@@ -199,13 +224,17 @@ const Calendar1 = () => {
 
           <View style={styles.labelView}>
             <View style={styles.labelContainer}>
-
-            
               {/*///////////////////////////////////////////////////////////////////////////////////////////// */}
 
               {/* Sleep Start Time Picker */}
 
-              <View style={{ height: "20%", flexDirection : 'row' , justifyContent : 'space-around' }}>
+              <View
+                style={{
+                  height: "20%",
+                  flexDirection: "row",
+                  justifyContent: "space-around",
+                }}
+              >
                 <MaterialIcons
                   name="work"
                   size={24}
@@ -213,7 +242,9 @@ const Calendar1 = () => {
                   style={{ marginLeft: "3%" }}
                 />
 
-                <Text style={{fontSize : 15 ,fontWeight : 'bold' ,color : 'gray'}}>
+                <Text
+                  style={{ fontSize: 15, fontWeight: "bold", color: "gray" }}
+                >
                   Sleep Start
                 </Text>
                 <TouchableOpacity
@@ -237,12 +268,17 @@ const Calendar1 = () => {
 
               {/*///////////////////////////////////////////////////////////////////////////////////////////// */}
 
-              
               {/*///////////////////////////////////////////////////////////////////////////////////////////// */}
 
               {/* Sleep end Time Picker */}
 
-              <View style={{ height: "20%", flexDirection : 'row' , justifyContent : 'space-around' }}>
+              <View
+                style={{
+                  height: "20%",
+                  flexDirection: "row",
+                  justifyContent: "space-around",
+                }}
+              >
                 <MaterialIcons
                   name="work"
                   size={24}
@@ -250,7 +286,9 @@ const Calendar1 = () => {
                   style={{ marginLeft: "3%" }}
                 />
 
-                <Text style={{fontSize : 15 ,fontWeight : 'bold' ,color : 'gray'}}>
+                <Text
+                  style={{ fontSize: 15, fontWeight: "bold", color: "gray" }}
+                >
                   Sleep End
                 </Text>
                 <TouchableOpacity
@@ -274,13 +312,17 @@ const Calendar1 = () => {
 
               {/*///////////////////////////////////////////////////////////////////////////////////////////// */}
 
-
-
               {/*///////////////////////////////////////////////////////////////////////////////////////////// */}
 
               {/* Work Start Time Picker */}
 
-              <View style={{ height: "20%", flexDirection : 'row' , justifyContent : 'space-around' }}>
+              <View
+                style={{
+                  height: "20%",
+                  flexDirection: "row",
+                  justifyContent: "space-around",
+                }}
+              >
                 <MaterialIcons
                   name="work"
                   size={24}
@@ -288,7 +330,9 @@ const Calendar1 = () => {
                   style={{ marginLeft: "3%" }}
                 />
 
-                <Text style={{fontSize : 15 ,fontWeight : 'bold' ,color : 'gray'}}>
+                <Text
+                  style={{ fontSize: 15, fontWeight: "bold", color: "gray" }}
+                >
                   Work Start
                 </Text>
                 <TouchableOpacity
@@ -312,12 +356,17 @@ const Calendar1 = () => {
 
               {/*///////////////////////////////////////////////////////////////////////////////////////////// */}
 
-              
               {/*///////////////////////////////////////////////////////////////////////////////////////////// */}
 
               {/* Work End Time Picker */}
 
-              <View style={{ height: "20%", flexDirection : 'row' , justifyContent : 'space-around' }}>
+              <View
+                style={{
+                  height: "20%",
+                  flexDirection: "row",
+                  justifyContent: "space-around",
+                }}
+              >
                 <MaterialIcons
                   name="work"
                   size={24}
@@ -325,7 +374,9 @@ const Calendar1 = () => {
                   style={{ marginLeft: "3%" }}
                 />
 
-                <Text style={{fontSize : 15 ,fontWeight : 'bold' ,color : 'gray'}}>
+                <Text
+                  style={{ fontSize: 15, fontWeight: "bold", color: "gray" }}
+                >
                   Work End
                 </Text>
                 <TouchableOpacity
@@ -338,7 +389,7 @@ const Calendar1 = () => {
                 </TouchableOpacity>
                 {showWorkEndTimePicker && (
                   <DateTimePicker
-                    value={workEndTime} 
+                    value={workEndTime}
                     mode="time"
                     onChange={handleWorkEndTimeChange}
                     display="default"
@@ -348,14 +399,6 @@ const Calendar1 = () => {
               </View>
 
               {/*///////////////////////////////////////////////////////////////////////////////////////////// */}
-
-              
-
-
-
-
-
-              
             </View>
           </View>
           <View style={styles.buttonContainer}>

@@ -5,7 +5,15 @@ const startImg = require("../../assets/start2.png");
 import LottieView from "lottie-react-native";
 import { StatusBar } from "expo-status-bar";
 
-const IntroPage2 = () => {
+const IntroPage2 = ({ goToNextPage }) => {
+
+
+  
+  const handleNextPress = () => {
+    goToNextPage();
+  };
+
+
   return (
     <SafeAreaView style={{ flex: 1, alignItems: "center", backgroundColor: COLORS.secondry }}>
       <StatusBar />
@@ -20,13 +28,13 @@ const IntroPage2 = () => {
         <Text style={styles.Description}>StudyMate!</Text>
 
 
-        <TouchableOpacity style={styles.btn}>
+        <TouchableOpacity onPress={handleNextPress} style={styles.btn}>
           <Text style={styles.btnText}>Next</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity>
+        {/* <TouchableOpacity>
           <Text style={{ color: COLORS.third, fontSize: 16, fontWeight: "bold", opacity: 0.8, }}>Skip</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </SafeAreaView>
   );

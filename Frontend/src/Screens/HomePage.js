@@ -15,10 +15,10 @@ import { Feather, FontAwesome } from "@expo/vector-icons";
 import Carousel from "react-native-snap-carousel";
 import { useState } from "react";
 import * as Progress from "react-native-progress";
-import { COLORS } from "../../assets/constants/constant";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { COLORS, apiUrl } from "../../assets/constants/constant";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 import { useEffect } from "react";
-
 
 const progress = 0.4;
 
@@ -32,12 +32,11 @@ const renderItem = ({ item }) => {
       }}
     >
       <ImageBackground
-      
         source={require("../../assets/carouselImg1.png")}
         style={styles.CarouselImg}
       >
         <View>
-          <Text style={styles.CarouselTextup}>{item.textup}</Text>
+          <Text style={styles.CarouselTextup}>{item.name}</Text>
         </View>
         <View>
           <Text style={styles.CarouselTexttitle}>{item.title}</Text>
@@ -67,18 +66,18 @@ const renderItem = ({ item }) => {
 const App = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [carouselItems, setCarouselItems] = useState([]);
+  const [userData, setUserData] = useState(null);
 
-  const [userData , setUserData] = useState(null)
   const getUserData = async () => {
     try {
-      const userData = await AsyncStorage.getItem('userData');
+      const userData = await AsyncStorage.getItem("userData");
       if (userData !== null) {
         return JSON.parse(userData);
       } else {
         return null; // Indicate no user data stored
       }
     } catch (error) {
-      console.error('Error retrieving user data:', error);
+      console.error("Error retrieving user data:", error);
       return null;
     }
   };
@@ -89,23 +88,52 @@ const App = () => {
       setUserData(data);
     };
 
-     fetchData();
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userData = await AsyncStorage.getItem("userData");
+        const parsedUserData = JSON.parse(userData);
+        const uid = parsedUserData.uid;
+        console.log(uid);
+
+        const response = await axios.get(apiUrl.getSubTasks + uid);
+        const allSubTasks = response.data.subTasks;
+
+        console.log(allSubTasks);
+
+        const today = new Date();
+
+        const todayString = today.toISOString().split("T")[0]; // Get the date string representation of today
+
+        const filteredTasks = allSubTasks.filter(
+          (task) => task.startTime.split("T")[0] === todayString
+        );
+        setCarouselItems(filteredTasks);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={COLORS.third} barStyle={'dark-content'}/>
-      
-      <ScrollView contentContainerStyle={styles.scrollViewContent} showsVerticalScrollIndicator={false}>
+      <StatusBar backgroundColor={COLORS.third} barStyle={"dark-content"} />
+
+      <ScrollView
+        contentContainerStyle={styles.scrollViewContent}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={styles.upperview}>
           <TouchableOpacity style={styles.notificationContainer1}>
-             <Image
+            <Image
               source={require("../../assets/menuicon.png")}
               style={styles.Notifications}
-            ></Image> 
-
-            
-
+            ></Image>
           </TouchableOpacity>
           <TouchableOpacity style={styles.notificationContainer2}>
             <Image
@@ -118,22 +146,23 @@ const App = () => {
         <TouchableOpacity style={styles.MainCardContainer}>
           <Shadow distance={10} startColor={"#e6e6e6"} offset={[0, 0]}>
             <View style={styles.MainCard}>
-            
-               <ImageBackground
+              <ImageBackground
                 source={require("../../assets/HomePage_MainCard_Image.png")}
                 style={styles.backgroundImage}
               >
                 <View style={styles.textContainer}>
                   <Text style={styles.mcardtext1}>
-                    You got <Text style={styles.mcardtext1m}>5 Tasks</Text>{" "}
+                    You got <Text style={styles.mcardtext1m}>{carouselItems.length} tasks</Text>{" "}
                     Today!
                   </Text>
                   <Text style={styles.mcardtext2}>Hello,</Text>
                   {userData ? (
-                    <Text style={styles.mcardtext3}>{userData.displayName}</Text>
+                    <Text style={styles.mcardtext3}>
+                      {userData.displayName}
+                    </Text>
                   ) : (
                     <Text style={styles.mcardtext3}>Guest User</Text>
-                  )}                  
+                  )}
                   <Text style={styles.mcardtext4}>Have a nice day!</Text>
                 </View>
               </ImageBackground>
@@ -173,50 +202,26 @@ const App = () => {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.CarouselCardContainer}>
-          <Carousel
-            layout={"default"}
-            ref={(ref) => setCarouselItems(ref)}
-            data={[
-              {
-                textup: " 📝 Exam",
-                title: "Algorithms",
-                text: "ICT Pt .1",
-                textdown: "28 February 2024",
-              },
-              {
-                textup: " 📝 Exam",
-                title: "OOP",
-                text: "MCQ & Structure",
-                textdown: "3 March 2024",
-              },
-              {
-                textup: " 📝 Exam",
-                title: "Server Side",
-                text: "ICT Pt.1",
-                textdown: "15 March 2024",
-              },
-              {
-                textup: " 📚 Coursework",
-                title: "Web Dev",
-                text: "Course Work",
-                textdown: "3 April 2024",
-              },
-              {
-                textup: " 👨🏼‍💻 Self study",
-                title: "OOP",
-                text: "Self Studies",
-                textdown: "13 April 2024",
-              },
-            ]}
-            sliderWidth={375}
-            itemWidth={225}
-            inactiveSlideScale={0.75}
-            renderItem={renderItem}
-            loop={true}
-            onSnapToItem={(index) => setActiveIndex(index)}
-          />
-        </View>
+        {carouselItems.length > 0 ? (
+          <View style={styles.CarouselCardContainer}>
+            <Carousel
+              layout={"default"}
+              data={carouselItems}
+              sliderWidth={375}
+              itemWidth={225}
+              inactiveSlideScale={0.75}
+              renderItem={renderItem}
+              loop={true}
+              onSnapToItem={(index) => setActiveIndex(index)}
+            />
+          </View>
+        ) : (
+          <View style={[styles.CarouselCardContainer, { justifyContent : 'center'}]}>
+
+          <Text style={styles.noTasksText}>No tasks for today</Text>
+          </View>
+
+        )}
 
         <TouchableOpacity style={styles.BottomCardContainer}>
           <Shadow distance={10} startColor={"#e6e6e6"} offset={[0, 0]}>
@@ -235,8 +240,13 @@ const App = () => {
                     color={COLORS.tenth}
                   />
                 </View>
-                <Text style={styles.Bottomcardtext4}>You worked  <Text style={styles.Bottomcardtext4m}>1 hour</Text> on your Tasks Today!</Text>
-                <Text style={styles.Bottomcardtext5}>Keep up the Good Work...</Text>
+                <Text style={styles.Bottomcardtext4}>
+                  You worked <Text style={styles.Bottomcardtext4m}>1 hour</Text>{" "}
+                  on your Tasks Today!
+                </Text>
+                <Text style={styles.Bottomcardtext5}>
+                  Keep up the Good Work...
+                </Text>
               </View>
             </View>
           </Shadow>
@@ -253,7 +263,7 @@ const styles = StyleSheet.create({
 
   scrollViewContent: {
     flexGrow: 1,
-    paddingBottom: '35%',
+    paddingBottom: "35%",
   },
 
   upperview: {
@@ -406,6 +416,8 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     height: "100%",
     width: "100%",
+    alignItems : 'center',
+    justifyContent : 'center'
   },
   CarouselTexttitle: {
     fontSize: 30,
@@ -453,15 +465,15 @@ const styles = StyleSheet.create({
   Bottomcardtext1: {
     margin: 10,
     fontSize: 15,
-    color:"gray",
-    marginVertical: '7%',
+    color: "gray",
+    marginVertical: "7%",
     marginLeft: "15%",
     fontWeight: "600",
   },
   Bottomcardtext4: {
     marginTop: "5%",
-    color:"gray",
-    width:300,
+    color: "gray",
+    width: 300,
     fontSize: 16,
     fontWeight: "400",
     marginHorizontal: "15%",
@@ -472,22 +484,20 @@ const styles = StyleSheet.create({
   },
   Bottomcardtext4m: {
     marginTop: "5%",
-    color: '#805AD1',
-    width:300,
+    color: "#805AD1",
+    width: 300,
     fontSize: 16,
     fontWeight: "900",
     marginHorizontal: "15%",
   },
   Bottomcardtext5: {
     marginTop: "1%",
-    color: '#805AD1',
-    width:300,
+    color: "#805AD1",
+    width: 300,
     fontSize: 16,
     fontWeight: "700",
     marginHorizontal: "15%",
   },
-
-
 });
 
 export default App;

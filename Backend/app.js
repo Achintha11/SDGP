@@ -18,21 +18,21 @@ const moment = require("moment");
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const { addNewMainTask } = require("./services/taskService");
+// const { addNewMainTask } = require("./services/taskService");
 
 
-const startDate = moment('2024-03-17'); // Replace with your actual start date
-const dueDate = moment('2024-03-19'); // Replace with your actual due date
+// const startDate = moment('2024-03-17'); // Replace with your actual start date
+// const dueDate = moment('2024-03-19'); // Replace with your actual due date
 
-const Title = 'Achintha Test 4';
-const workHours = 12;
-const color ='purple'
-const uid = 'kcCUl5NWeQWJHtmJMe7SfcF8hK12'
+// const Title = 'Achintha Test 4';
+// const workHours = 12;
+// const color ='purple'
+// const uid = 'kcCUl5NWeQWJHtmJMe7SfcF8hK12'
 
 
 
  
- addNewMainTask(Title, workHours, startDate, dueDate , color , uid);
+//  addNewMainTask(Title, workHours, startDate, dueDate , color , uid);
 
 
 
@@ -72,7 +72,7 @@ const start = async () => {
     await connectDB(process.env.MONGO_URL);
     app.listen(
       port,
-      "10.31.1.77",
+      "192.168.8.146",
       console.log(`Server is listening on port ${port}`)
     );
   } catch (error) {

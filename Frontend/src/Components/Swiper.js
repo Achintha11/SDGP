@@ -1,47 +1,39 @@
-import React, { Component } from 'react'
-import { AppRegistry, StyleSheet, Text, View } from 'react-native'
-import IntroPage1 from "../Screens/IntroPage1"
-import IntroPage2 from "../Screens/IntroPage2"
-import IntroPage3 from "../Screens/IntroPage3"
-
-import Swiper from 'react-native-swiper'
+import React, { Component } from 'react';
+import { StyleSheet } from 'react-native';
+import Swiper from 'react-native-swiper';
+import IntroPage1 from "../Screens/IntroPage1";
+import IntroPage2 from "../Screens/IntroPage2";
+import IntroPage3 from "../Screens/IntroPage3";
 
 const styles = StyleSheet.create({
   wrapper: {},
-  slide1: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#9DD6EB'
-  },
-  slide2: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#97CAE5'
-  },
-  slide3: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#92BBD9'
-  },
-  text: {
-    color: '#fff',
-    fontSize: 30,
-    fontWeight: 'bold'
-  }
-})
+});
 
 export default class SwiperComponent extends Component {
+  goToNextPage = () => {
+    // Function to navigate to the next page in the swiper
+    if (this.swiper) {
+      this.swiper.scrollBy(1); // Scrolls to the next page
+    }
+  };
+
+
+
+
+  skipPress = () => {
+    // Function to navigate to the next page in the swiper
+    if (this.swiper) {
+      this.swiper.scrollBy(2); // Scrolls to the next page
+    }
+  };
+
   render() {
     return (
-      <Swiper loop={false} style={styles.wrapper} >
-        <IntroPage1/>
-        <IntroPage2/>
-        <IntroPage3/>
+      <Swiper loop={false} style={styles.wrapper} ref={(swiper) => { this.swiper = swiper; }} onIndexChanged={index => console.log(index)}>
+        <IntroPage1 skiPress={this.skipPress}  goToNextPage={this.goToNextPage} />
+        <IntroPage2 goToNextPage={this.goToNextPage}  />
+        <IntroPage3 />
       </Swiper>
-    )
+    );
   }
 }
-

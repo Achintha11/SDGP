@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const ScheduleDataSchema = new mongoose.Schema({
+    uid : String,
     date: Date,
     sleepStart: Date,
     sleepEnd: Date,
