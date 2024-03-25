@@ -9,7 +9,9 @@ const TaskSchema = new mongoose.Schema({
   priorityLevel: String,
   workHours: String,
   description: String,
-  color : String
+  color : String,
+  completed : Boolean,
+  progress : Number,
 });
 
 module.exports = mongoose.model("Task", TaskSchema);

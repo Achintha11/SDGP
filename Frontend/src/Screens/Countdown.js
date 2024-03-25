@@ -12,6 +12,7 @@ import { COLORS } from "../../assets/constants/constant";
 import LottieView from "lottie-react-native";
 import * as Progress from "react-native-progress";
 
+
 const Circle = ({ delay, backgroundColor }) => {
   const scale = useRef(new Animated.Value(0)).current;
   const opacity = useRef(new Animated.Value(1)).current;
@@ -50,13 +51,52 @@ const Circle = ({ delay, backgroundColor }) => {
   );
 };
 
-const Countdown = () => {
+
+const Countdown = ({route}) => {
   const [status, setStatus] = useState("work");
-  const [time, setTime] = useState(25);
+  const [time, setTime] = useState(25*60);
   const [taskTime, setTaskTime] = useState(50);
   const [currentInterval, setCurrentInterval] = useState(1);
   const [completed, setCompleted] = useState(false);
   const [progress, setProgress] = useState(0);
+
+
+  const { startDate, endDate, title , color , duration , _id  } = route.params;
+
+  useEffect(() => {
+    setTaskTime(duration*60);
+  }); 
+
+
+
+
+
+  // const handleCompleteSubtask = async () => {
+  //   try {
+
+  //     const response = await axios.post(
+  //       "your-backend-api-url/mark-subtask-completed",
+  //       {
+  //         subtaskId:
+  //       }
+  //     );
+
+  //     if (response.status === 200) {
+  //       // Subtask marked as completed successfully
+  //       console.log("Subtask completed!");
+  //       // You may also update the UI or state to reflect the completion
+  //     } else {
+  //       // Handle error response from the backend
+  //       console.error(
+  //         "Failed to mark subtask as completed:",
+  //         response.statusText
+  //       );
+  //     }
+  //   } catch (error) {
+  //     // Handle network errors or other exceptions
+  //     console.error("Error marking subtask as completed:", error);
+  //   }
+  // };
 
   useEffect(() => {
     if (completed) {
@@ -207,7 +247,7 @@ const Countdown = () => {
             />
           )}
 
-          <View style={{alignItems : 'center'}}>
+          <View style={{ alignItems: "center" }}>
             <Progress.Bar
               progress={progress}
               width={300}

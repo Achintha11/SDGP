@@ -14,7 +14,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { COLORS } from "../../assets/constants/constant";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 
 const Calendar1 = () => {
@@ -36,6 +36,9 @@ const Calendar1 = () => {
       setShowWorkStartTimePicker(false);
     }
   };
+
+  const navigation = useNavigation();
+
 
   const handleWorkEndTimeChange = (event, selected) => {
     if (selected) {
@@ -148,6 +151,7 @@ const Calendar1 = () => {
         formattedScheduleData
       );
       console.log("Schedule data sent successfully:", response.data);
+      navigation.navigate("MainTab", { screen: "Title2" });
     } catch (error) {
       console.error("Error sending schedule data:", error);
     }
