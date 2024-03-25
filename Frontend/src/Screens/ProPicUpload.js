@@ -15,6 +15,10 @@ import { COLORS } from "../../assets/constants/constant";
 import { useEffect } from "react";
 import girlImage from '../../assets/Girl.png'
 import boyImage from '../../assets/Boy.png'
+import { firebase } from '@react-native-firebase/storage';
+import auth from '@react-native-firebase/auth';
+
+
 
 const ProPicUpload = () => {
   const girlImg = Image.resolveAssetSource(girlImage).uri  
@@ -57,6 +61,7 @@ const ProPicUpload = () => {
 
     }
   };
+
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.secondry }}>
@@ -118,7 +123,7 @@ const ProPicUpload = () => {
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => console.log("Continue pressed!")}
+        onPress={() => uploadFile(image, 'profile_picture.jpg')}
       >
         <Text style={styles.buttonText}>Continue</Text>
       </TouchableOpacity>

@@ -6,16 +6,21 @@ import { COLORS } from '../../assets/constants/constant';
 import { Shadow } from 'react-native-shadow-2';
 import { Octicons } from '@expo/vector-icons';
 import moment from 'moment';
+import { useNavigation } from '@react-navigation/native'; 
+
 
 const App = ({route}) => {
 
-    const { startDate, endDate, title , color  } = route.params;
+
+    const { startDate, endDate, title , color , duration , _id  } = route.params;
     const completed = 70
     const thisSession = 10
-    const toComplete = 100 - (completed + thisSession)
-
+    const toComplete = 100 - (completed + thisSession);
     const formattedStartDate = moment(startDate).format("YYYY  MMM  DD");
     const formattedDueDate = moment(endDate).format("YYYY  MMM  DD");
+
+    const navigation = useNavigation(); // Initialize navigation object
+
 
 
     const pieData = [
@@ -28,6 +33,18 @@ const App = ({route}) => {
         { value: thisSession, color: 'blue', gradientCenterColor: 'blue', focused: true },
         { value: toComplete, color: 'orange', gradientCenterColor: 'orange' },
     ];
+
+
+    const handleStartSession = () => {
+        navigation.navigate('countdown', {
+        startDate: startDate,
+        endDate: endDate,
+        title: title,
+        color: color,
+        duration: duration,
+        _id: _id
+    }); 
+    };
 
 
     return (
@@ -113,7 +130,7 @@ const App = ({route}) => {
                     <Text style={styles.btnText1}>Cancel Session</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.btn2}>
+                <TouchableOpacity onPress={handleStartSession} style={styles.btn2}>
                     <Text style={styles.btnText2}>Start Session</Text>
                 </TouchableOpacity>
             </View>

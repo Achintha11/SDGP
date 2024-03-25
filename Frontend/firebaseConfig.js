@@ -2,6 +2,8 @@ import { initializeApp } from "firebase/app";
 import { initializeAuth } from "firebase/auth";
 import * as SecureStore from "@react-native-async-storage/async-storage";
 import { getAuth, createUserWithEmailAndPassword, getReactNativePersistence } from "firebase/auth";
+import 'firebase/storage';
+
 
 
 const firebaseConfig = {

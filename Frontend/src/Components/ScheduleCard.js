@@ -1,6 +1,7 @@
 import React from "react";
 import { TouchableOpacity, Platform, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native"; // Import the navigation hook
+import { duration } from "moment";
 
 const ScheduleCard = ({ style, item }) => {
 
@@ -17,6 +18,8 @@ const ScheduleCard = ({ style, item }) => {
       endDate: isoEndDate,
       title : item.title,
       color : item.color,
+      _id : item._id,
+      duration : item.duration
     });
   };
   return (

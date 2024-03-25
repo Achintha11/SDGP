@@ -32,6 +32,9 @@ const TaskCard = ({ task , onTaskCardPress }) => {
           <Text style={styles.cardSubText}>{task.taskType}</Text>
         </View>
 
+
+        
+
         <View style={styles.progressIcon}>
           <AntDesign name="bars" size={25} color="grey" />
           <Text style={styles.progressText}>progress</Text>

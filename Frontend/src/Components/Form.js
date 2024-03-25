@@ -107,6 +107,8 @@ const Form = () => {
         priorityLevel: selectedPriorityLevel,
         description: description,
         color: color,
+        completed : false,
+        progress : 0,
       };
       try {
         const response = await axios.post(apiUrl.get, formData);
